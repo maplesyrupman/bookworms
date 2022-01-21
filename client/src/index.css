@@ -4,5 +4,13 @@
 .nav-link {
     @apply mx-2 lg:text-3xl;
 }
+.form-field {
+    @apply flex flex-col my-2;
+}
+
+.form-input {
+    @apply outline outline-1 rounded;
+}
+
 
 @tailwind utilities;
