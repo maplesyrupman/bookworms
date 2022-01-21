@@ -8,10 +8,14 @@ const typeDefs = gql`
 
     type User {
         _id: ID!
+        Username: String!
+		Email: String!
+		Password: String!
     }
 
     type Query {
         queryTest: String
+        users: [User]
     }
 
     type Mutation {
