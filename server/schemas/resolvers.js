@@ -11,7 +11,7 @@ const resolvers = {
 
     Mutation: {
         mutationTest(parent, {testVar}) {
-            return 'mutation test success'
+            return 'mutation test success' + testVar
         }
     }
 }

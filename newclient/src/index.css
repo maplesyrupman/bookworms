@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+
+.nav-link {
+    @apply mx-2 lg:text-3xl;
+}
+
+@tailwind utilities;
