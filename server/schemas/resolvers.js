@@ -7,9 +7,6 @@ const { User } = require('../models');
 
 const resolvers = {
     Query: {
-        queryTest() {
-            return 'query test success'
-        },
 
         users: async () => {
             return User.find();
@@ -18,10 +15,6 @@ const resolvers = {
 
 
     Mutation: {
-        mutationTest(parent, { testVar }) {
-            return 'mutation test success'
-        },
-
         addUser: async (parent, args) => {
             const user = await User.create(args);
 

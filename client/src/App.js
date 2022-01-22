@@ -9,7 +9,7 @@ import Home from './pages/Home';
 import Logup from './pages/Logup';
 
 const httpLink = createHttpLink({
-  uri: '/graphql'
+  uri: 'http://localhost:3007/graphql'
 })
 
 const authLink = setContext((_, { headers }) => {
