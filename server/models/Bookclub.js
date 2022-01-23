@@ -1,6 +1,5 @@
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
-const discussionSchema = require('./Discussion')
 
 const bookClubSchema = new Schema(
     {
@@ -13,11 +12,25 @@ const bookClubSchema = new Schema(
             default: Date.now,
             get: timestamp => dateFormat(timestamp)
         },
-        username: {
-            type: String,
-            required: true
+        
+        createdBy: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
         },
-        discussion: [discussionSchema]
+
+        members: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        ],
+
+        readBooks: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Book'
+            }
+        ]
     },
     {
         toJSON: {
@@ -25,10 +38,6 @@ const bookClubSchema = new Schema(
         }
     }
 );
-
-discussionSchema.virtual('discussionCount').get(function () {
-    return this.discussion.length;
-});
 
 const BookClub = model('BookClub', bookClubSchema);
 
