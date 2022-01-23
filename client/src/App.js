@@ -7,6 +7,7 @@ import Cookies from 'js-cookie'
 import Nav from './pages/Nav';
 import Home from './pages/Home';
 import Logup from './pages/Logup';
+import BookResults from './pages/BookResults';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3007/graphql'
@@ -35,6 +36,7 @@ function App() {
           <Route path='/' element={<Nav />}>
             <Route index element={<Home />} />
             <Route path='logup' element={<Logup />} />
+            <Route path='books/:query' element={<BookResults />} />
           </Route>
         </Routes>
       </Router>
