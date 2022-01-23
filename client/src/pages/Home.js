@@ -1,9 +1,9 @@
-import ClubTab from '.asdfa'
+import ClubTab from "../components/clubtab/ClubTab"
 
 export default function Home() {
     return (
         <div>
-            <ClubTab />
+          <ClubTab/>
         </div>
     )
 }
