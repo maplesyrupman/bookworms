@@ -8,19 +8,17 @@ export default function BookResults() {
     const { query } = useParams()
 
     useEffect(async () => {
-        if (!books) {
-            googleBook(query)
-                .then(setBooks)
-        }
+        setBooks(undefined)
 
+        googleBook(query)
+            .then(setBooks)
 
-
-    }, [books])
+    }, [query])
 
     return (
         <div>
             {books && (
-                books.map(book => <BookTab key={book.imgUrl} book={book} />)
+                books.map(book => book.authors ? <BookTab key={book.imgUrl} book={book} /> : null)
             )}
 
             {!books && (

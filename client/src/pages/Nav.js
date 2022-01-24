@@ -8,6 +8,7 @@ export default function Nav() {
     const [searchState, setSearchState] = useState('')
     const navigate = useNavigate()
 
+
     function handleChange(e) {
         setSearchState(e.target.value)
     }
