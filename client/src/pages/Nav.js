@@ -54,7 +54,6 @@ export default function Nav() {
 
             <div className="container mx-auto lg:px-24">
                 <Outlet />
-                <div className="bg-red-200 w-full h-4"></div>
             </div>
         </>
     )

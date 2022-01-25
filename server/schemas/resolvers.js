@@ -23,14 +23,13 @@ const resolvers = {
             return Book.find().sort({ createdAt: -1 })
         },
 
-        book: async (parent, { title }) => {
+        book: async (parent, { title, authors }) => {
             console.log('Finding Book: ' + title);
             const book = await Book.find(
                 {
                     "title": { $regex: '.*' + title + '.*', $options: 'i' }
                 }
             );
-            console.log('Book: ' + JSON.stringify(book));
             return book;
         },
 

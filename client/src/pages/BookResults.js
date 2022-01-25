@@ -9,9 +9,12 @@ export default function BookResults() {
 
     useEffect(async () => {
         setBooks(undefined)
-
         googleBook(query)
-            .then(setBooks)
+            .then(results => {
+                setBooks(results)
+                console.log(results[0])
+            })
+        
 
     }, [query])
 
