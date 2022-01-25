@@ -28,7 +28,6 @@ const typeDefs = gql`
         description: String
         imgUrl: String
         createdAt: String
-        discussion: [Discussion]
     }
 
     type BookClub {
@@ -38,6 +37,7 @@ const typeDefs = gql`
         createdBy: User
         members: [User]
         readBooks: [Book]
+        discussion: [Discussion]
     }
 
     type Query {
@@ -53,7 +53,9 @@ const typeDefs = gql`
         login(email: String!, password: String!): Auth
         signup(username: String!, email: String!, password: String!): Auth
         addBook(title: String!, description: String, authors: [String], imgUrl: String): Book
-        addDiscussion(bookId:String, discussionBody: String, username:String): Book
+        createBookClub(bookClubName: String!, username:String): BookClub
+        joinBookClub(bookClubId: String!, username: String): BookClub
+        addDiscussion(bookClubId:String, discussionBody: String, username: String): BookClub
     }
 
 `
