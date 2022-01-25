@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
+const discussionSchema = require('./Discussion')
 
 const bookClubSchema = new Schema(
     {
@@ -30,7 +31,8 @@ const bookClubSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: 'Book'
             }
-        ]
+        ],
+        discussion: [discussionSchema]
     },
     {
         toJSON: {

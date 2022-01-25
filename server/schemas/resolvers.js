@@ -82,20 +82,30 @@ const resolvers = {
             return book;
         },
 
-        addDiscussion: async (parent, { bookId, discussionBody, username }) => {
+        createBookClub: async(parent, { bookClubName, username }) => {
             const user = await User.findOne({ username });
-            const book = await Book.findById(bookId);
-            console.log('Book: ' + JSON.stringify(book));
-            book.discussion.push(
+            const bookClub = new BookClub();
+            bookClub.createdBy = user;
+            bookClub.bookClubName = bookClubName;
+            const bookClubUpdated = await bookClub.save();
+            console.log('BookClub: ' + JSON.stringify(bookClubUpdated));
+            return bookClubUpdated;
+        },
+
+        addDiscussion: async (parent, { bookClubId, discussionBody, username }) => {
+            const user = await User.findOne({ username });
+            const bookClub = await BookClub.findById(bookClubId);
+            console.log('BookClub: ' + JSON.stringify(bookClub));
+            bookClub.discussion.push(
                 {
                     discussionBody: discussionBody,
                     user: user
                 }
             ) 
-            console.log('New Book: ' + JSON.stringify(book));
-            const updatedBook = await book.save()
-            console.log('Updated Book: ' + JSON.stringify(updatedBook));
-            return updatedBook;
+            console.log('New BookClub: ' + JSON.stringify(bookClub));
+            const updatedBookClub = await bookClub.save()
+            console.log('Updated BookClub: ' + JSON.stringify(updatedBookClub));
+            return updatedBookClub;
         }
     }
 }

@@ -1,6 +1,5 @@
 const { Schema, model, Mongoose } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
-const discussionSchema = require('./Discussion')
 
 const bookSchema = new Schema(
     {
@@ -26,8 +25,6 @@ const bookSchema = new Schema(
             default: Date.now,
             get: timestamp => dateFormat(timestamp)
         },
-
-        discussion: [discussionSchema]
     },
     {
         toJSON: {
