@@ -81,7 +81,7 @@ const resolvers = {
             return book;
         },
 
-        createBookClub: async(parent, { bookClubName, username }) => {
+        createBookClub: async (parent, { bookClubName, username }) => {
             const user = await User.findOne({ username });
             const bookClub = new BookClub();
             bookClub.createdBy = user;
@@ -100,7 +100,7 @@ const resolvers = {
                     discussionBody: discussionBody,
                     user: user
                 }
-            ) 
+            )
             console.log('New BookClub: ' + JSON.stringify(bookClub));
             const updatedBookClub = await bookClub.save()
             console.log('Updated BookClub: ' + JSON.stringify(updatedBookClub));
