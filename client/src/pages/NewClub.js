@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import BookResults from './BookResults'
 
 export default function NewClubForm({ book }) {
     const {title, authors, description, imgUrl} = book
