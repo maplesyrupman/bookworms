@@ -37,7 +37,7 @@ const resolvers = {
 
 
     Mutation: {
-        addUser: async (parent, args) => {
+        signup: async (parent, args) => {
             const user = await User.create(args);
 
             const token = signToken(user);
@@ -61,6 +61,36 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
+
+        addBookClub: async (parent, args, context) => {
+            if (context.user) {
+                const bookClub = await BookClub.create({ ...args, username: context.user.username });
+
+                await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $push: { bookClubs: bookClub._id } },
+                    { new: true }
+                );
+
+                return bookClub;
+            }
+
+            throw new AuthenticationError('You need to be logged in!');
+        },
+
+        addDiscussion: async (parent, { bookClubId, discussionBody }, context) => {
+            if (context.user) {
+                const updatedBookClub = await BookClub.findOneAndUpdate(
+                    { _id: bookClubId },
+                    { $push: { discussions: { discussionBody, username: context.user.username } } },
+                    { new: true, runValidators: true }
+                );
+
+                return updatedBookClub;
+            }
+
+            throw new AuthenticationError('You need to be logged in!');
+        }
     }
 }
 
