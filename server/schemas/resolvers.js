@@ -2,7 +2,7 @@
 
 const { AuthenticationError } = require('apollo-server-express')
 const { signToken } = require('../utils/auth')
-const { User, BookClub, Book } = require('../models');
+const { User, BookClub, Book, Event } = require('../models');
 const discussionSchema = require('../models/Discussion');
 
 
@@ -35,6 +35,10 @@ const resolvers = {
 
         bookClubs: async () => {
             return BookClub.find().sort({ createdAt: -1 })
+        },
+
+        events: async () => {
+            return Event.find().sort({ createdAt: -1 })
         },
 
         // bookClubs: async (parent, { username }) => {
@@ -105,6 +109,17 @@ const resolvers = {
             const updatedBookClub = await bookClub.save()
             console.log('Updated BookClub: ' + JSON.stringify(updatedBookClub));
             return updatedBookClub;
+        },
+
+        //addEvent(eventName: String!, eventDate: String, location: String, link: String): Event
+        addEvent: async (parent, { eventName, eventDate, location, link }) => {
+            const event = new Event();
+            event.eventName = eventName;
+            event.eventDate = eventDate;
+            event.location = location;
+            event.link = link;
+            const updatedEvent = await event.save()
+            return updatedEvent;
         }
     }
 }

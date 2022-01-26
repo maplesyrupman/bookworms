@@ -40,6 +40,15 @@ const typeDefs = gql`
         discussion: [Discussion]
     }
 
+    type Event {
+        _id: ID
+        eventName: String!
+        createdAt: String
+        eventDate: String
+        location: String
+        link: String
+    }
+
     type Query {
         users:[User]
         user(username: String!): User
@@ -47,6 +56,7 @@ const typeDefs = gql`
         book(title: String!): [Book]
         bookClubs: [BookClub]
         bookClub(name: String!): [BookClub]
+        events:[Event]
     }
 
     type Mutation {
@@ -56,6 +66,7 @@ const typeDefs = gql`
         createBookClub(bookClubName: String!, username:String): BookClub
         joinBookClub(bookClubId: String!, username: String): BookClub
         addDiscussion(bookClubId:String, discussionBody: String, username: String): BookClub
+        addEvent(eventName: String!, eventDate: String, location: String, link: String): Event
     }
 
 `
