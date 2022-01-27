@@ -12,10 +12,7 @@ export default function BookResults() {
         googleBook(query)
             .then(results => {
                 setBooks(results)
-                console.log(results[0])
             })
-        
-
     }, [query])
 
     return (
@@ -29,4 +26,4 @@ export default function BookResults() {
             )}
         </div>
     )
-}
+} 

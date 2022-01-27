@@ -1,6 +1,9 @@
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 
-export default function NewClubForm({ book }) {
+export default function NewClubForm() {
+    const book = useSelector((state) => state.currentBook)
+    console.log(book)
     const {title, authors, description, imgUrl} = book
     const [formState, setFormState] = useState({ clubName: '', speed: 'Slow', type: 'In person', meetingDay: 'Monday', meetingTime: '12 AM' })
 

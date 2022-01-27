@@ -9,11 +9,15 @@ function googleBook(query) {
 
 function extractBookData({volumeInfo: book}) {
     const data = {}
-    
-    data.title = book.title
-    data.authors = book.authors
-    data.description = book.description
-    data.imgUrl = book.imageLinks.smallThumbnail
+    try {
+        data.title = book.title
+        data.authors = book.authors
+        data.description = book.description
+        data.imgUrl = book.imageLinks.smallThumbnail
+    } catch (err) {
+        return false
+    }
+
     
     return data
 }

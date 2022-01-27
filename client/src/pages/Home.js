@@ -5,6 +5,6 @@ const testBook = { title: "Dune", authors: ['Frank Herbert'], description: "Foll
 
 export default function Home() {
     return (
-        <NewClubForm book={testBook} />
+        <div>HOME</div>
     )
 }

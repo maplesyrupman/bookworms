@@ -8,6 +8,7 @@ import Nav from './pages/Nav';
 import Home from './pages/Home';
 import Logup from './pages/Logup';
 import BookResults from './pages/BookResults';
+import NewClubForm from './pages/NewClub';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3007/graphql'
@@ -29,6 +30,7 @@ const client = new ApolloClient({
 })
 
 function App() {
+
   return (
     <ApolloProvider client={client}>
       <Router>
@@ -37,6 +39,9 @@ function App() {
             <Route index element={<Home />} />
             <Route path='logup' element={<Logup />} />
             <Route path='books/:query' element={<BookResults />} />
+            <Route path='clubs/'>
+              <Route path='newClub' element={<NewClubForm />} />
+            </Route>
           </Route>
         </Routes>
       </Router>
