@@ -13,8 +13,9 @@ const bookClubSchema = new Schema(
             default: Date.now,
             get: timestamp => dateFormat(timestamp)
         },
-        
-        createdBy: {
+
+        createdBy:
+        {
             type: Schema.Types.ObjectId,
             ref: 'User'
         },
@@ -25,13 +26,13 @@ const bookClubSchema = new Schema(
                 ref: 'User'
             }
         ],
-
-        readBooks: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Book'
-            }
-        ],
+        // 
+        // readBooks: [
+        //     {
+        //         type: Schema.Types.ObjectId,
+        //         ref: 'Book'
+        //     }
+        // ],
         discussion: [discussionSchema]
     },
     {
@@ -40,6 +41,11 @@ const bookClubSchema = new Schema(
         }
     }
 );
+
+bookClubSchema.virtual('membersCount').get(function () {
+    return this.members.length;
+});
+
 
 const BookClub = model('BookClub', bookClubSchema);
 
