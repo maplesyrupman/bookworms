@@ -1,9 +1,8 @@
 //import models
-
 const { AuthenticationError } = require('apollo-server-express')
 const { signToken } = require('../utils/auth')
 const { User, BookClub, Book } = require('../models');
-const discussionSchema = require('../models/Discussion');
+
 
 
 const resolvers = {
@@ -12,11 +11,13 @@ const resolvers = {
         users: async () => {
             return User.find()
                 .select('-__v -password');
+
         },
 
         user: async (parent, { username }) => {
             return User.findOne({ username })
                 .select('-__v -password');
+
         },
 
         books: async () => {
@@ -43,8 +44,8 @@ const resolvers = {
         // },
 
 
-        // bookClub: async (parent, { _id }) => {
-        //     return BookClub.findOne({ _id });
+        // bookClub: async (parent, { bookClubName }) => {
+        //     return BookClub.findOne({ bookClubName });
         // }
     },
 
