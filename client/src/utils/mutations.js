@@ -25,27 +25,47 @@ export const SIGNUP_USER = gql`
     `;
 
 export const CREATE_BOOKClUB = gql`
-mutation createBookClub($bookClubName : String!, $username:String!){
-    createBookClub(bookClubName :$bookClubName, username :$username){
-      _id
-      bookClubName
-      createdBy {
+mutation createBookClub($bookClubName : String!,$title: String!,$authors: [String],$description: String!,$speed: String!, 
+    $type: String!,$meetingDay : String!, $meetingTime : String!,$imgUrl: String! ){
+      createBookClub(bookClubName :$bookClubName, title: $title, authors: $authors, description: $description,speed:$speed, type:$type,meetingDay:$meetingDay,meetingTime: $meetingTime, imgUrl: $imgUrl){
         _id
+        bookClubName
         username
-      }    
-            
+        title
+        authors
+        description
+        imgUrl
+        speed
+        type
+        meetingDay
+        meetingTime
+        discussions {
+          _id
+          discussionBody
+          username
+          createdAt
+        } 
+             
+      }
     }
-  }
 
  `;
 
 export const ADD_DISCUSSION = gql`
-mutation addDiscussion ($bookClubId : String!, $discussionBody:String, $username : String!){
-    addDiscussion (bookClubId: $bookClubId, discussionBody : $discussionBody,username :$username) {
+mutation addDiscussion ($bookClubId : String!, $discussionBody:String!){
+    addDiscussion (bookClubId: $bookClubId, discussionBody : $discussionBody) {
       _id
       createdAt
+      bookClubName
+      discussions {
+        _id
+        createdAt
+        username
+        discussionBody
       } 
-  }
+          
+    }
+  } 
 
 `
 export const ADD_BOOK = gql`

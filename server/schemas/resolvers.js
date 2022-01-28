@@ -10,13 +10,14 @@ const resolvers = {
         // get all users
         users: async () => {
             return User.find()
-                .select('-__v -password');
+                .select('-__v -password')
 
         },
 
         user: async (parent, { username }) => {
             return User.findOne({ username })
-                .select('-__v -password');
+                .select('-__v -password')
+
 
         },
 
@@ -38,6 +39,11 @@ const resolvers = {
             return BookClub.find().sort({ createdAt: -1 })
         },
 
+        bookClub: async (parent, { bookClubName }) => {
+            return BookClub.findOne({ bookClubName })
+
+        },
+
         events: async () => {
             return Event.find().sort({ createdAt: -1 })
         },
@@ -53,6 +59,7 @@ const resolvers = {
         },
 
         login: async (parent, { email, password }) => {
+
             const user = await User.findOne({ email });
 
             if (!user) {
@@ -77,30 +84,50 @@ const resolvers = {
         // },
 
         createBookClub: async (parent, args, context) => {
-            const newClub = BookClub.create({...args, createdById: context.user._id, createdByUsername: context.user.username})
-            User.findByIdAndUpdate(
-                context.user._id,
-                { $push: {bookClubs: newClub._id} },
-                {new: true}
-            )
+            if (context.user) {
+                const bookClub = BookClub.create({ ...args, username: context.user.username })
+                await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $push: { bookClubs: bookClub._id } },
+                    { new: true }
+                )
+
+                return bookClub;
+            }
+
+            throw new AuthenticationError('You need to be logged in!');
         },
 
-        addDiscussion: async (parent, { bookClubId, discussionBody, username }) => {
-            const user = await User.findOne({ username });
-            const bookClub = await BookClub.findById(bookClubId);
-            bookClub.discussion.push(
-                {
-                    discussionBody: discussionBody,
-                    user: user
-                }
-            )
-            const updatedBookClub = await bookClub.save()
-            return updatedBookClub;
+        // addDiscussion: async (parent, { bookClubId, discussionBody, username }) => {
+        //     const user = await User.findOne({ username });
+        //     const bookClub = await BookClub.findById(bookClubId);
+        //     bookClub.discussion.push(
+        //         {
+        //             discussionBody: discussionBody,
+        //             user: user
+        //         }
+        //     )
+        //     const updatedBookClub = await bookClub.save()
+        //     return updatedBookClub;
+        // },
+
+        addDiscussion: async (parent, { bookClubId, discussionBody }, context) => {
+            if (context.user) {
+                const updatedBookClub = await BookClub.findOneAndUpdate(
+                    { _id: bookClubId },
+                    { $push: { discussions: { discussionBody, username: context.user.username } } },
+                    { new: true }
+                );
+
+                return updatedBookClub;
+            }
+
+            throw new AuthenticationError('You need to be logged in!');
         },
 
         //addEvent(eventName: String!, eventDate: String, location: String, link: String): Event
         addEvent: async (parent, args) => {
-            return await Event.create({...args})
+            return await Event.create({ ...args })
         }
     }
 }

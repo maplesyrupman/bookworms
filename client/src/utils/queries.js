@@ -4,61 +4,44 @@ export const QUERY_BOOKCLUBS = gql`
 query{
   bookClubs {
     _id
+    username
     bookClubName
-      members{
+    createdAt
+    title
+    description
+    authors
+    imgUrl
+    discussions{
       _id
-      username
-    }
-    discussion {
-      _id
-      discussionBody
-      createdAt
-      user {
-        _id
-      }   
-    }  
-  createdBy{
-    _id
-   }        
-  }
+       discussionBody
+       createdAt
+       username
+                   
+     }
+   }
 }
 `;
 
 export const QUERY_BOOKCLUB = gql`
-  query bookClub($id: ID!) {
-    bookClub(_id: $id) {
-      _id
-      bookClubName
+query($bookClubName: String!) {
+  bookClub(bookClubName: $bookClubName) {
+    _id
+    username
+    createdAt
+    bookClubName
+    title
+    authors
+    description
+    imgUrl
+    discussions {
+      discussionBody
       createdAt
       username
-      members {
-        _id
-        username
-      }
-      discussionCount
-      discussions{
-          _id
-          discussionBody
-          username
-          createdAt
-      }
     }
-  }
-`;
-
-export const QUERY_USERS = gql`
-query {
-  users {
-  _id
-  username
-  email
- bookClubs {
-    _id
-    bookClubName
-     }
+     
   }
 }
-`
+`;
 
 export const QUERY_BOOKS = gql`
 query{
@@ -70,7 +53,7 @@ query{
     authors
   }
 }
-`
+`;
 
 export const QUERY_BOOK = gql`
 query ($title: String!){
@@ -82,7 +65,8 @@ query ($title: String!){
     imgUrl
   }
 }
-`
+
+`;
 
 
 

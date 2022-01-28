@@ -14,9 +14,26 @@ const bookClubSchema = new Schema(
             get: timestamp => dateFormat(timestamp)
         },
 
-        createdByUsername: {
+        username: {
             type: String,
             required: true
+        },
+
+        title: {
+            type: String,
+            required: true
+        },
+        description: {
+            type: String,
+        },
+
+        authors: {
+            type: [String],
+            required: true
+        },
+
+        imgUrl: {
+            type: String
         },
 
         speed: {
@@ -33,7 +50,7 @@ const bookClubSchema = new Schema(
             type: String,
             required: true
         },
-        
+
         meetingTime: {
             type: String,
             required: true
@@ -46,7 +63,7 @@ const bookClubSchema = new Schema(
             }
         ],
 
-        discussion: [discussionSchema]
+        discussions: [discussionSchema]
     },
     {
         toJSON: {
