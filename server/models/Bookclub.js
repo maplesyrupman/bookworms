@@ -19,11 +19,6 @@ const bookClubSchema = new Schema(
             required: true
         },
 
-        createdById: {
-            type: Schema.Types.ObjectId,
-            required: true
-        },
-
         speed: {
             type: String,
             required: true

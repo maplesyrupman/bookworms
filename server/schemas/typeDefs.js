@@ -33,11 +33,17 @@ type User {
     
     type BookClub {
         _id: ID
+
         bookClubName: String!
+
+        bookTitle: String!
+        bookDescription: String!
+        imgUrl: String!
+        authors: [String]!
+
         createdAt: String
         createdBy: User
         members: [User]
-        readBooks: [Book]
         discussion: [Discussion]
     }
 

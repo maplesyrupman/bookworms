@@ -22,7 +22,6 @@ query{
    }        
   }
 }
-
 `;
 
 export const QUERY_BOOKCLUB = gql`
