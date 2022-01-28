@@ -7,9 +7,13 @@ export default function BookTab({book}) {
     const navigate = useNavigate()
     const {title, authors, description, imgUrl} = book
 
-    function handleExplore() {
+    function handleCreate() {
         dispatch(setCurrentBook({...book}))
         navigate('/clubs/newClub')
+    }
+
+    function handleExplore() {
+        
     }
     return (
         <div className="w-full bg-yellow-500 p-4 border-2 rounded-lg my-4">
@@ -44,7 +48,10 @@ export default function BookTab({book}) {
                         >Expore</button>
                     </div>
                     <div className="flex justify-center">
-                        <button className="btn btn-blue">Create</button>
+                        <button 
+                        className="btn btn-blue"
+                        onClick={handleCreate}
+                        >Create</button>
                     </div>
 
 

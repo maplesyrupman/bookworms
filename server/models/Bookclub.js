@@ -14,10 +14,34 @@ const bookClubSchema = new Schema(
             get: timestamp => dateFormat(timestamp)
         },
 
-        createdBy:
-        {
+        createdByUsername: {
+            type: String,
+            required: true
+        },
+
+        createdById: {
             type: Schema.Types.ObjectId,
-            ref: 'User'
+            required: true
+        },
+
+        speed: {
+            type: String,
+            required: true
+        },
+
+        type: {
+            type: String,
+            required: true
+        },
+
+        meetingDay: {
+            type: String,
+            required: true
+        },
+        
+        meetingTime: {
+            type: String,
+            required: true
         },
 
         members: [
@@ -26,13 +50,7 @@ const bookClubSchema = new Schema(
                 ref: 'User'
             }
         ],
-        // 
-        // readBooks: [
-        //     {
-        //         type: Schema.Types.ObjectId,
-        //         ref: 'Book'
-        //     }
-        // ],
+
         discussion: [discussionSchema]
     },
     {

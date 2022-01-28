@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 
 export default function NewClubForm() {
     const book = useSelector((state) => state.currentBook)
-    console.log(book)
     const {title, authors, description, imgUrl} = book
     const [formState, setFormState] = useState({ clubName: '', speed: 'Slow', type: 'In person', meetingDay: 'Monday', meetingTime: '12 AM' })
 
@@ -22,6 +21,7 @@ export default function NewClubForm() {
                 setFormState({ ...formState, meetingDay: e.target.value })
                 break
             case 'meetingTime':
+                console.log('here we are')
                 setFormState({ ...formState, meetingTime: e.target.value })
                 break
         }
@@ -138,7 +138,7 @@ export default function NewClubForm() {
                                 <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="grid-state"
                                     onChange={handleChange}
-                                    name='meetingType'
+                                    name='meetingTime'
                                 >
                                     <option>12 AM</option>
                                     <option>1 AM</option>

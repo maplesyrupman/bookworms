@@ -41,16 +41,6 @@ const resolvers = {
         events: async () => {
             return Event.find().sort({ createdAt: -1 })
         },
-
-        // bookClubs: async (parent, { username }) => {
-        //     const params = username ? { username } : {};
-        //     return BookClub.find().sort({ createdAt: -1 })
-        // },
-
-
-        // bookClub: async (parent, { bookClubName }) => {
-        //     return BookClub.findOne({ bookClubName });
-        // }
     },
 
 
@@ -80,47 +70,37 @@ const resolvers = {
             return { token, user };
         },
 
-        addBook: async (parent, args) => {
-            const book = await Book.create(args);
-            console.log('Book: ' + JSON.stringify(book));
-            return book;
-        },
+        // addBook: async (parent, args) => {
+        //     const book = await Book.create(args);
+        //     console.log('Book: ' + JSON.stringify(book));
+        //     return book;
+        // },
 
-        createBookClub: async (parent, { bookClubName, username }) => {
-            const user = await User.findOne({ username });
-            const bookClub = new BookClub();
-            bookClub.createdBy = user;
-            bookClub.bookClubName = bookClubName;
-            const bookClubUpdated = await bookClub.save();
-            console.log('BookClub: ' + JSON.stringify(bookClubUpdated));
-            return bookClubUpdated;
+        createBookClub: async (parent, args, context) => {
+            const newClub = BookClub.create({...args, createdById: context.user._id, createdByUsername: context.user.username})
+            User.findByIdAndUpdate(
+                context.user._id,
+                { $push: {bookClubs: newClub._id} },
+                {new: true}
+            )
         },
 
         addDiscussion: async (parent, { bookClubId, discussionBody, username }) => {
             const user = await User.findOne({ username });
             const bookClub = await BookClub.findById(bookClubId);
-            console.log('BookClub: ' + JSON.stringify(bookClub));
             bookClub.discussion.push(
                 {
                     discussionBody: discussionBody,
                     user: user
                 }
             )
-            console.log('New BookClub: ' + JSON.stringify(bookClub));
             const updatedBookClub = await bookClub.save()
-            console.log('Updated BookClub: ' + JSON.stringify(updatedBookClub));
             return updatedBookClub;
         },
 
         //addEvent(eventName: String!, eventDate: String, location: String, link: String): Event
-        addEvent: async (parent, { eventName, eventDate, location, link }) => {
-            const event = new Event();
-            event.eventName = eventName;
-            event.eventDate = eventDate;
-            event.location = location;
-            event.link = link;
-            const updatedEvent = await event.save()
-            return updatedEvent;
+        addEvent: async (parent, args) => {
+            return await Event.create({...args})
         }
     }
 }
