@@ -1,10 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useMutation } from '@apollo/client'
+import { CREATE_ClUB } from '../utils/mutations'
+import { useNavigate } from 'react-router-dom'
 
 export default function NewClubForm() {
     const book = useSelector((state) => state.currentBook)
     const {title, authors, description, imgUrl} = book
     const [formState, setFormState] = useState({ clubName: '', speed: 'Slow', type: 'In person', meetingDay: 'Monday', meetingTime: '12 AM' })
+    const [createClub, {data, loading}] = useMutation(CREATE_ClUB)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (data) {
+            navigate(`/club/${data.BookClub._id}`)
+        }
+    }, [data, loading])
 
     function handleChange(e) {
         switch (e.target.name) {
@@ -29,7 +40,21 @@ export default function NewClubForm() {
 
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(formState)
+        if (!formState.clubName) {
+            alert('You must provide a name for the club')
+            return
+        }
+        createClub({
+            variables: {...formState, ...book}
+        })
+    }
+
+    if (loading) {
+        return (
+            <div>
+                Creating Club...
+            </div>
+        )
     }
 
     return (

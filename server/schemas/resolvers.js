@@ -1,8 +1,7 @@
 //import models
 const { AuthenticationError } = require('apollo-server-express')
 const { signToken } = require('../utils/auth')
-const { User, BookClub, Book, Event } = require('../models');
-const discussionSchema = require('../models/Discussion');
+const { User, BookClub } = require('../models');
 
 
 const resolvers = {
@@ -21,31 +20,20 @@ const resolvers = {
 
         },
 
-        books: async () => {
-            return Book.find().sort({ createdAt: -1 })
+        bookClubs: async (parent, {title, authors}) => {
+            return await BookClub.find({
+                title,
+                authors
+            })
+            .populate('members')
+            .sort({ createdAt: -1 })
         },
 
-        book: async (parent, { title, authors }) => {
-            console.log('Finding Book: ' + title);
-            const book = await Book.find(
-                {
-                    "title": { $regex: '.*' + title + '.*', $options: 'i' }
-                }
-            );
-            return book;
-        },
-
-        bookClubs: async () => {
-            return BookClub.find().sort({ createdAt: -1 })
-        },
-
-        bookClub: async (parent, { bookClubName }) => {
-            return BookClub.findOne({ bookClubName })
-
-        },
-
-        events: async () => {
-            return Event.find().sort({ createdAt: -1 })
+        bookClub: async (parent, { clubId }) => {
+            console.log(clubId)
+            const club = await BookClub.findById(clubId).populate('members')
+            console.log(club)
+            return club
         },
     },
 
@@ -77,15 +65,9 @@ const resolvers = {
             return { token, user };
         },
 
-        // addBook: async (parent, args) => {
-        //     const book = await Book.create(args);
-        //     console.log('Book: ' + JSON.stringify(book));
-        //     return book;
-        // },
-
-        createBookClub: async (parent, args, context) => {
+        createClub: async (parent, args, context) => {
             if (context.user) {
-                const bookClub = BookClub.create({ ...args, username: context.user.username })
+                const bookClub = await BookClub.create({ ...args, creator: context.user.username })
                 await User.findByIdAndUpdate(
                     { _id: context.user._id },
                     { $push: { bookClubs: bookClub._id } },
@@ -98,18 +80,24 @@ const resolvers = {
             throw new AuthenticationError('You need to be logged in!');
         },
 
-        // addDiscussion: async (parent, { bookClubId, discussionBody, username }) => {
-        //     const user = await User.findOne({ username });
-        //     const bookClub = await BookClub.findById(bookClubId);
-        //     bookClub.discussion.push(
-        //         {
-        //             discussionBody: discussionBody,
-        //             user: user
-        //         }
-        //     )
-        //     const updatedBookClub = await bookClub.save()
-        //     return updatedBookClub;
-        // },
+        joinClub: async (parent, {clubId}, context) => {
+            if (context.user) {
+                const bookClub = await BookClub.findByIdAndUpdate(
+                    clubId,
+                    { $addToSet: {members: context.user._id}},
+                    {new: true}
+                ).populate('members')
+
+                await User.findByIdAndUpdate(
+                    context.user._id,
+                    {$addToSet: { bookClubs: clubId }}
+                )
+
+                return bookClub
+            }
+
+            throw new AuthenticationError('You must be logged in to join a club')
+        },
 
         addDiscussion: async (parent, { bookClubId, discussionBody }, context) => {
             if (context.user) {
@@ -125,7 +113,7 @@ const resolvers = {
             throw new AuthenticationError('You need to be logged in!');
         },
 
-        //addEvent(eventName: String!, eventDate: String, location: String, link: String): Event
+
         addEvent: async (parent, args) => {
             return await Event.create({ ...args })
         }

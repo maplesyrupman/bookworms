@@ -24,32 +24,26 @@ export const SIGNUP_USER = gql`
         }
     `;
 
-export const CREATE_BOOKClUB = gql`
-mutation createBookClub($bookClubName : String!,$title: String!,$authors: [String],$description: String!,$speed: String!, 
-    $type: String!,$meetingDay : String!, $meetingTime : String!,$imgUrl: String! ){
-      createBookClub(bookClubName :$bookClubName, title: $title, authors: $authors, description: $description,speed:$speed, type:$type,meetingDay:$meetingDay,meetingTime: $meetingTime, imgUrl: $imgUrl){
-        _id
-        bookClubName
-        username
-        title
-        authors
-        description
-        imgUrl
-        speed
-        type
-        meetingDay
-        meetingTime
-        discussions {
-          _id
-          discussionBody
-          username
-          createdAt
-        } 
-             
-      }
+export const CREATE_ClUB = gql`
+mutation createClub($clubName: String!, $speed: String!, $type: String!, $meetingDay: String!, $meetingTime: String!, $title: String!, $description: String!, $authors: [String]!, $imgUrl: String!) {
+  createClub(clubName: $clubName, speed: $speed, type: $type, meetingDay: $meetingDay, meetingTime: $meetingTime, title: $title, description: $description, authors: $authors, imgUrl: $imgUrl) {
+    clubName
+    _id
+    creator
+    title
+    description
+    authors
+    imgUrl
+    speed
+    type
+    meetingDay
+    meetingTime
+    members{
+      username
     }
-
- `;
+  }
+}
+`;
 
 export const ADD_DISCUSSION = gql`
 mutation addDiscussion ($bookClubId : String!, $discussionBody:String!){
@@ -66,7 +60,6 @@ mutation addDiscussion ($bookClubId : String!, $discussionBody:String!){
           
     }
   } 
-
 `
 export const ADD_BOOK = gql`
 mutation addBook($title : String!, $description: String!, $authors :[String!], $imgUrl : String!){
@@ -78,6 +71,5 @@ mutation addBook($title : String!, $description: String!, $authors :[String!], $
       authors
     }
 }
-
 `
 

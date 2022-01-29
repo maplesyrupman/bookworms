@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Logup from './pages/Logup';
 import BookResults from './pages/BookResults';
 import NewClubForm from './pages/NewClub';
+import Club from './pages/BookClub'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3007/graphql'
@@ -42,6 +43,7 @@ function App() {
             <Route path='clubs/'>
               <Route path='newClub' element={<NewClubForm />} />
             </Route>
+            <Route path='club/:clubId' element={<Club/>} />
           </Route>
         </Routes>
       </Router>

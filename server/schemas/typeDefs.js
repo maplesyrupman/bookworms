@@ -34,15 +34,15 @@ type User {
     type BookClub {
         _id: ID
 
-        bookClubName: String!
+        clubName: String!
 
-        bookTitle: String!
-        bookDescription: String!
+        title: String!
+        description: String!
         imgUrl: String!
         authors: [String]!
 
         createdAt: String
-        createdBy: User
+        creator: String
         members: [User]
         discussion: [Discussion]
     }
@@ -59,19 +59,15 @@ type User {
     type Query {
         users:[User]
         user(username: String!): User
-        books:[Book]
-        book(title: String!): [Book]
-        bookClubs: [BookClub]
-        bookClub(name: String!): [BookClub]
-        events:[Event]
+        bookClubs(title: String!, authors: [String]!): [BookClub]
+        bookClub(clubId: ID!): BookClub
     }
 
     type Mutation {
         login(email: String!, password: String!): Auth
         signup(username: String!, email: String!, password: String!): Auth
-        addBook(title: String!, description: String, authors: [String], imgUrl: String): Book
-        createBookClub(bookClubName: String!, username:String): BookClub
-        joinBookClub(bookClubId: String!, username: String): BookClub
+        createClub(clubName: String!, speed: String!, type: String!, meetingDay: String!, meetingTime: String!, title: String!, description: String!, authors: [String]!, imgUrl: String!): BookClub
+        joinClub(clubId: ID!): BookClub
         addDiscussion(bookClubId:String, discussionBody: String, username: String): BookClub
         addEvent(eventName: String!, eventDate: String, location: String, link: String): Event
     }

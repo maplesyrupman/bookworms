@@ -1,11 +1,14 @@
+const eventSchema = require('./Event')
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 const discussionSchema = require('./Discussion')
 
+
 const bookClubSchema = new Schema(
     {
-        bookClubName: {
+        clubName: {
             type: String,
+            unique: true
         },
 
         createdAt: {
@@ -14,7 +17,7 @@ const bookClubSchema = new Schema(
             get: timestamp => dateFormat(timestamp)
         },
 
-        username: {
+        creator: {
             type: String,
             required: true
         },
@@ -55,6 +58,8 @@ const bookClubSchema = new Schema(
             type: String,
             required: true
         },
+
+        events: [eventSchema],
 
         members: [
             {

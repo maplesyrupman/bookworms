@@ -5,4 +5,14 @@ function setCurrentBook(book) {
     }
 }
 
-export { setCurrentBook }
+function setCurrentClub(club) {
+    return {
+        type: "SET_CURRENT_CLUB",
+        payload: club
+    }
+}
+
+export { 
+    setCurrentBook,
+    setCurrentClub
+}

@@ -23,50 +23,20 @@ query{
 `;
 
 export const QUERY_BOOKCLUB = gql`
-query($bookClubName: String!) {
-  bookClub(bookClubName: $bookClubName) {
+query bookClub($clubId: ID!) {
+  bookClub(clubId: $clubId) {
+    clubName
     _id
-    username
+    title
+    description
+    imgUrl
+    authors
     createdAt
-    bookClubName
-    title
-    authors
-    description
-    imgUrl
-    discussions {
-      discussionBody
-      createdAt
+    creator
+    members {
       username
+      _id
     }
-     
   }
 }
 `;
-
-export const QUERY_BOOKS = gql`
-query{
-  books{
-    _id
-    title
-    description
-    imgUrl
-    authors
-  }
-}
-`;
-
-export const QUERY_BOOK = gql`
-query ($title: String!){
-  book(title: $title){
-    _id
-    title
-    description
-    authors
-    imgUrl
-  }
-}
-
-`;
-
-
-

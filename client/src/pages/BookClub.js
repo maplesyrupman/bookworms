@@ -6,16 +6,17 @@ import Member from '../components/Member'
 import BookTab from '../components/BookTab'
 
 export default function BookClub() {
-    const { bookClubId } = useParams()
+    const { clubId } = useParams()
     const { data, loading } = useQuery(QUERY_BOOKCLUB, {
-        variables: { bookClubId }
+        variables: { clubId }
     })
+    console.log(data)
     const bookClub = data?.bookClub || {}
     const bookData = {
-        title: bookClub.bookTitle,
-        description: bookClub.bookDescription,
-        imgUrl: bookClub.bookImgUrl,
-        authors: bookClub.bookAuthors
+        title: bookClub.title,
+        description: bookClub.description,
+        imgUrl: bookClub.imgUrl,
+        authors: bookClub.authors
     }
 
     if (loading) {
@@ -31,10 +32,11 @@ export default function BookClub() {
                 <BookTab book={bookData} />
             </div>
 
-            <div className='flex '>
-                <div>
+            <div className='grid grid-cols-2 gap-2'>
+
+                <div className='border-2 col-span-1'>
                     <div>
-                        <h1>{bookClub.bookClubName}</h1>
+                        <h1>{bookClub.clubName}</h1>
                     </div>
                     <div>
                         <h2>Members</h2>
@@ -44,9 +46,10 @@ export default function BookClub() {
                     </div>
                 </div>
 
-                <div>
+                <div className='border-2 col-span-1'>
                     MEETING DATES COMPONENT
                 </div>
+
             </div>
 
             <div>
