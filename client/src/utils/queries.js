@@ -27,10 +27,15 @@ query bookClub($clubId: ID!) {
   bookClub(clubId: $clubId) {
     clubName
     _id
+    meetingDay
+    meetingTime
+    speed
+
     title
     description
     imgUrl
     authors
+
     createdAt
     creator
     members {

@@ -34,14 +34,16 @@ export default function BookClub() {
 
             <div className='grid grid-cols-2 gap-2'>
 
-                <div className='border-2 col-span-1'>
-                    <div>
-                        <h1>{bookClub.clubName}</h1>
+                <div className='border-2 col-span-1 p-3'>
+                    <div className='flex flex-col gap-1'>
+                        <h1 className='text-2xl'>{bookClub.clubName}</h1>
+                        <p>Meets every {bookClub.meetingDay} at {bookClub.meetingTime}</p>
+                        <p>Reading Pace: {bookClub.speed}</p>
                     </div>
-                    <div>
-                        <h2>Members</h2>
-                        <div>
-                            {bookClub.members.map(member => <Member member={member} /> )}
+                    <div className='p-2'>
+                        <h2>Members ({bookClub.members.length})</h2>
+                        <div className='border-2 p-2 h-48 overflow-auto'>
+                            {bookClub.members.map(member => <Member key={member._id} member={member} /> )}
                         </div>
                     </div>
                 </div>

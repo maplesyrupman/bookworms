@@ -67,7 +67,7 @@ const resolvers = {
 
         createClub: async (parent, args, context) => {
             if (context.user) {
-                const bookClub = await BookClub.create({ ...args, creator: context.user.username })
+                const bookClub = await BookClub.create({ ...args, creator: context.user.username, members: [context.user._id] })
                 await User.findByIdAndUpdate(
                     { _id: context.user._id },
                     { $push: { bookClubs: bookClub._id } },
