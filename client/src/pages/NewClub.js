@@ -13,7 +13,8 @@ export default function NewClubForm() {
 
     useEffect(() => {
         if (data) {
-            navigate(`/club/${data.BookClub._id}`)
+            console.log(data)
+            navigate(`/club/${data.createClub._id}`)
         }
     }, [data, loading])
 

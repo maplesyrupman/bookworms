@@ -1,6 +1,7 @@
-import { Outlet, Link, useNavigate,  } from "react-router-dom";
+import { Outlet, Link, useNavigate, } from "react-router-dom";
 import { useState } from 'react'
 import { BsSearch } from 'react-icons/bs'
+import Auth from '../utils/auth'
 
 import googleBook from '../utils/bookSearch'
 
@@ -16,6 +17,11 @@ export default function Nav() {
     function handleSearch(e) {
         e.preventDefault()
         navigate(`/books/${searchState}`)
+    }
+
+    function logout() {
+        Auth.logout()
+        window.location.replace('/')
     }
     return (
         <>
@@ -33,7 +39,7 @@ export default function Nav() {
                                 id="search"
                                 placeholder="Search something.."
                                 onChange={handleChange}
-                                />
+                            />
 
                             <div className="grid place-items-center h-full w-12 text-gray-300">
                                 <button>
@@ -45,9 +51,26 @@ export default function Nav() {
 
 
                     <ul className="flex flex-row justify-end">
-                        <li className='nav-link'>
-                            <Link to='/logup'>Sign In</Link>
-                        </li>
+                        {!Auth.loggedIn() && (
+                            <li className='nav-link'>
+                                <Link to='/logup'>Sign In</Link>
+                            </li>
+                        )}
+                        {Auth.loggedIn() && (
+                            <>
+                                <li
+                                    className="nav-link hover:cursor-pointer"
+                                    onClick={logout}
+                                >
+                                    <p>Logout</p>
+                                </li>
+                                <li
+                                    className="nav-link hover:cursor-pointer"
+                                >
+                                    <Link to='/profile'>Profile</Link>
+                                </li>
+                            </>
+                        )}
                     </ul>
                 </nav>
             </div>

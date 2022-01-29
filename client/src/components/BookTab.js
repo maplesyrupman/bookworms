@@ -1,19 +1,20 @@
 import { useDispatch } from "react-redux"
 import { setCurrentBook } from "../redux/actions"
 import { useNavigate } from "react-router-dom"
+import Auth from '../utils/auth'
 
-export default function BookTab({book}) {
+export default function BookTab({ book, isInClub }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {title, authors, description, imgUrl} = book
+    const { title, authors, description, imgUrl } = book
 
     function handleCreate() {
-        dispatch(setCurrentBook({...book}))
+        dispatch(setCurrentBook({ ...book }))
         navigate('/clubs/newClub')
     }
 
     function handleExplore() {
-        
+
     }
     return (
         <div className="w-full bg-yellow-500 p-4 border-2 rounded-lg my-4">
@@ -40,23 +41,27 @@ export default function BookTab({book}) {
                     </div> */}
                 </div>
 
-                <div className="col-span-1 w-full flex flex-col gap-2 justify-center align-center">
-                    <div className="flex justify-center">
-                        <button 
-                        className="btn btn-blue"
-                        onClick={handleExplore}
-                        >Expore</button>
+                {!isInClub && (
+                    <div className="col-span-1 w-full flex flex-col gap-2 justify-center align-center">
+                        <div className="flex justify-center">
+                            <button
+                                className="btn btn-blue"
+                                onClick={handleExplore}
+                            >Expore</button>
+                        </div>
+                        <div className="flex justify-center">
+                            {Auth.loggedIn() && (
+                                <button
+                                    className="btn btn-blue"
+                                    onClick={handleCreate}
+                                >
+                                    Create
+                                </button>
+                            )}
+                        </div>
                     </div>
-                    <div className="flex justify-center">
-                        <button 
-                        className="btn btn-blue"
-                        onClick={handleCreate}
-                        >Create</button>
-                    </div>
+                )}
 
-
-
-                </div>
             </div>
         </div>
     )

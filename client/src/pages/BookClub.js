@@ -29,7 +29,7 @@ export default function BookClub() {
     return (
         <div>
             <div>
-                <BookTab book={bookData} />
+                <BookTab book={bookData} isInClub={true} />
             </div>
 
             <div className='grid grid-cols-2 gap-2'>

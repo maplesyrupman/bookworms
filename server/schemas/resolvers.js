@@ -13,10 +13,10 @@ const resolvers = {
 
         },
 
-        user: async (parent, { username }) => {
-            return User.findOne({ username })
+        user: async (parent, { userId }) => {
+            return User.findById(userId)
                 .select('-__v -password')
-
+                .populate('bookClubs')
 
         },
 

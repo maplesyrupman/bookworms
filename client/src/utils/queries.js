@@ -40,3 +40,17 @@ query bookClub($clubId: ID!) {
   }
 }
 `;
+
+export const QUERY_USER = gql`
+query user($userId: ID!) {
+  user(userId: $userId) {
+    username
+    bookClubs {
+      clubName
+      _id
+      authors
+      title
+    }
+  }
+}
+`

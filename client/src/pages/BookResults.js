@@ -18,7 +18,7 @@ export default function BookResults() {
     return (
         <div>
             {books && (
-                books.map(book => book.authors ? <BookTab key={book.imgUrl} book={book} /> : null)
+                books.map(book => book.authors ? <BookTab key={book.imgUrl} book={book} isInClub={false} /> : null)
             )}
 
             {!books && (

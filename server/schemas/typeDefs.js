@@ -9,9 +9,8 @@ type Auth {
 
 type User {
         _id: ID!
-        username: String!
-		email: String!
-		password: String!
+        username: String
+		email: String
         bookClubs: [BookClub]
     }
 
@@ -34,12 +33,16 @@ type User {
     type BookClub {
         _id: ID
 
-        clubName: String!
+        clubName: String
+        speed: String
+        type: String
+        meetingDay: String
+        meetingTime: String
 
-        title: String!
-        description: String!
-        imgUrl: String!
-        authors: [String]!
+        title: String
+        description: String
+        imgUrl: String
+        authors: [String]
 
         createdAt: String
         creator: String
@@ -58,7 +61,7 @@ type User {
 
     type Query {
         users:[User]
-        user(username: String!): User
+        user(userId: ID!): User
         bookClubs(title: String!, authors: [String]!): [BookClub]
         bookClub(clubId: ID!): BookClub
     }
