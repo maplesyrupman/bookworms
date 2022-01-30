@@ -13,6 +13,7 @@ export default function BookClub() {
     console.log(data)
     const bookClub = data?.bookClub || {}
     const bookData = {
+        bookId: bookClub.bookId,
         title: bookClub.title,
         description: bookClub.description,
         imgUrl: bookClub.imgUrl,

@@ -22,6 +22,7 @@ const resolvers = {
 
         bookClubs: async (parent, {title, authors}) => {
             return await BookClub.find({
+                bookId,
                 title,
                 authors
             })
@@ -34,6 +35,12 @@ const resolvers = {
             const club = await BookClub.findById(clubId).populate('members')
             console.log(club)
             return club
+        },
+
+        popularClubs: async () => {
+            return await BookClub.find()
+            .populate('members')
+            .sort({ memberCount: -1 })
         },
     },
 

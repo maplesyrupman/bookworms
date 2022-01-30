@@ -6,7 +6,7 @@ import Auth from '../utils/auth'
 export default function BookTab({ book, isInClub }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { title, authors, description, imgUrl } = book
+    const { bookId, title, authors, description, imgUrl } = book
 
     function handleCreate() {
         dispatch(setCurrentBook({ ...book }))

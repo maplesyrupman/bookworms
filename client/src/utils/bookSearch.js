@@ -7,13 +7,15 @@ function googleBook(query) {
     })
 }
 
-function extractBookData({volumeInfo: book}) {
+function extractBookData(book) {
+    
     const data = {}
     try {
-        data.title = book.title
-        data.authors = book.authors
-        data.description = book.description
-        data.imgUrl = book.imageLinks.smallThumbnail
+        data.bookId = book.id
+        data.title = book.volumeInfo.title
+        data.authors = book.volumeInfo.authors
+        data.description = book.volumeInfo.description
+        data.imgUrl = book.volumeInfo.imageLinks.smallThumbnail
     } catch (err) {
         return false
     }

@@ -22,6 +22,11 @@ const bookClubSchema = new Schema(
             required: true
         },
 
+        bookId: {
+            type: String,
+            required: true
+        },
+
         title: {
             type: String,
             required: true

@@ -11,6 +11,7 @@ export default function BookResults() {
         setBooks(undefined)
         googleBook(query)
             .then(results => {
+                // console.log("Book: " + JSON.stringify(results));
                 setBooks(results)
             })
     }, [query])
