@@ -39,6 +39,7 @@ type User {
         meetingDay: String
         meetingTime: String
 
+        bookId: String!
         title: String
         description: String
         imgUrl: String
@@ -47,6 +48,7 @@ type User {
         createdAt: String
         creator: String
         members: [User]
+        membersCount: Int
         discussion: [Discussion]
     }
 
@@ -64,12 +66,13 @@ type User {
         user(userId: ID!): User
         bookClubs(title: String!, authors: [String]!): [BookClub]
         bookClub(clubId: ID!): BookClub
+        popularClubs: [BookClub]
     }
 
     type Mutation {
         login(email: String!, password: String!): Auth
         signup(username: String!, email: String!, password: String!): Auth
-        createClub(clubName: String!, speed: String!, type: String!, meetingDay: String!, meetingTime: String!, title: String!, description: String!, authors: [String]!, imgUrl: String!): BookClub
+        createClub(clubName: String!, speed: String!, type: String!, meetingDay: String!, meetingTime: String!, bookId: String!, title: String!, description: String!, authors: [String]!, imgUrl: String!): BookClub
         joinClub(clubId: ID!): BookClub
         addDiscussion(bookClubId:String, discussionBody: String, username: String): BookClub
         addEvent(eventName: String!, eventDate: String, location: String, link: String): Event

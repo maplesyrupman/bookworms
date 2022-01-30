@@ -25,11 +25,12 @@ export const SIGNUP_USER = gql`
     `;
 
 export const CREATE_ClUB = gql`
-mutation createClub($clubName: String!, $speed: String!, $type: String!, $meetingDay: String!, $meetingTime: String!, $title: String!, $description: String!, $authors: [String]!, $imgUrl: String!) {
-  createClub(clubName: $clubName, speed: $speed, type: $type, meetingDay: $meetingDay, meetingTime: $meetingTime, title: $title, description: $description, authors: $authors, imgUrl: $imgUrl) {
+mutation createClub($clubName: String!, $speed: String!, $type: String!, $meetingDay: String!, $meetingTime: String!, $bookId: String!, $title: String!, $description: String!, $authors: [String]!, $imgUrl: String!) {
+  createClub(clubName: $clubName, speed: $speed, type: $type, meetingDay: $meetingDay, meetingTime: $meetingTime, bookId: $bookId, title: $title, description: $description, authors: $authors, imgUrl: $imgUrl) {
     clubName
     _id
     creator
+    bookId
     title
     description
     authors
