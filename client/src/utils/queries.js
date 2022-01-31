@@ -24,7 +24,8 @@ query bookClub($clubId: ID!) {
     meetingDay
     meetingTime
     speed
-
+  
+    bookId,
     title
     description
     imgUrl
@@ -52,4 +53,29 @@ query user($userId: ID!) {
     }
   }
 }
-`
+`;
+
+export const QUERY_POPULAR_CLUBS = gql`
+query popularClubs {
+  popularClubs {
+    clubName
+    _id
+    meetingDay
+    meetingTime
+    speed
+  
+    bookId,
+    title
+    description
+    imgUrl
+    authors
+
+    createdAt
+    creator
+    members {
+      username
+      _id
+    }
+  }
+}
+`;

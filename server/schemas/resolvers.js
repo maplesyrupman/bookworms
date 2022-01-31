@@ -33,6 +33,12 @@ const resolvers = {
             console.log(club)
             return club
         },
+
+        popularClubs: async () => {
+            return await BookClub.find()
+            .populate('members')
+            .sort({ memberCount: -1 })
+        },
     },
 
 
