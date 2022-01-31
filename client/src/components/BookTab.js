@@ -14,8 +14,10 @@ export default function BookTab({ book, isInClub }) {
     }
 
     function handleExplore() {
-
+        navigate(`/clubs/${book.bookId}`)
     }
+
+
     return (
         <div className="w-full bg-yellow-500 p-4 border-2 rounded-lg my-4">
             <div className="grid grid-cols-8">

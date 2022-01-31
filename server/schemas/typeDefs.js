@@ -43,6 +43,7 @@ type User {
         description: String
         imgUrl: String
         authors: [String]
+        bookId: String
 
         createdAt: String
         creator: String
@@ -62,7 +63,7 @@ type User {
     type Query {
         users:[User]
         user(userId: ID!): User
-        bookClubs(title: String!, authors: [String]!): [BookClub]
+        bookClubs(bookId: String!): [BookClub]
         bookClub(clubId: ID!): BookClub
     }
 

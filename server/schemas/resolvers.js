@@ -20,11 +20,9 @@ const resolvers = {
 
         },
 
-        bookClubs: async (parent, {title, authors}) => {
-            return await BookClub.find({
-                title,
-                authors
-            })
+        bookClubs: async (parent, {bookId}) => {
+            console.log(bookId)
+            return await BookClub.find({bookId})
             .populate('members')
             .sort({ createdAt: -1 })
         },
