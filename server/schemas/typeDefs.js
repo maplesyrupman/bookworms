@@ -49,7 +49,9 @@ type User {
         creator: String
         members: [User]
         membersCount: Int
+        events: [Event]
         discussion: [Message]
+
     }
 
     type Event {
@@ -74,8 +76,9 @@ type User {
         signup(username: String!, email: String!, password: String!): Auth
         createClub(clubName: String!, speed: String!, type: String!, meetingDay: String!, meetingTime: String!, bookId: String!, title: String!, description: String!, authors: [String]!, imgUrl: String!): BookClub
         joinClub(clubId: ID!): BookClub
+        addEvent(eventName: String!, eventDate: String, location: String, link: String, clubId: ID!): Event
         addMessage(clubId: ID!, body: String!): BookClub
-        addEvent(eventName: String!, eventDate: String, location: String, link: String): Event
+
     }
 
 `
