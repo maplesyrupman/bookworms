@@ -1,16 +1,16 @@
 const { Schema } = require('mongoose')
 const dateFormat = require('../utils/dateFormat');
 
-const discussionSchema = new Schema(
+const messageSchema = new Schema(
     {
-        discussionBody: {
+        body: {
             type: String,
             required: true,
             maxlength: 280
         },
-        username: {
-            type: String,
-            required: true
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
         },
         createdAt: {
             type: Date,
@@ -25,4 +25,4 @@ const discussionSchema = new Schema(
     }
 );
 
-module.exports = discussionSchema;
+module.exports = messageSchema;

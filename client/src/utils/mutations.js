@@ -62,15 +62,12 @@ mutation addDiscussion ($bookClubId : String!, $discussionBody:String!){
     }
   } 
 `
-export const ADD_BOOK = gql`
-mutation addBook($title : String!, $description: String!, $authors :[String!], $imgUrl : String!){
-    addBook(title: $title, description :$description, imgUrl: $imgUrl, authors:$authors){ 
-      _id
-      title
-      description
-      imgUrl
-      authors
+
+export const JOIN_CLUB = gql`
+  mutation joinClub ($clubId: ID!) {
+    joinClub(clubId: $clubId) {
+      clubName
     }
-}
+  }
 `
 

@@ -28,10 +28,7 @@ const resolvers = {
         },
 
         bookClub: async (parent, { clubId }) => {
-            console.log(clubId)
-            const club = await BookClub.findById(clubId).populate('members')
-            console.log(club)
-            return club
+            return await BookClub.findById(clubId).populate('members').populate('discussion.user')
         },
 
         popularClubs: async () => {
@@ -70,6 +67,7 @@ const resolvers = {
         },
 
         createClub: async (parent, args, context) => {
+            console.log(args)
             if (context.user) {
                 const bookClub = await BookClub.create({ ...args, creator: context.user.username, members: [context.user._id] })
                 await User.findByIdAndUpdate(
@@ -103,17 +101,14 @@ const resolvers = {
             throw new AuthenticationError('You must be logged in to join a club')
         },
 
-        addDiscussion: async (parent, { bookClubId, discussionBody }, context) => {
+        addMessage: async (parent, { clubId, body }, context) => {
             if (context.user) {
-                const updatedBookClub = await BookClub.findOneAndUpdate(
-                    { _id: bookClubId },
-                    { $push: { discussions: { discussionBody, username: context.user.username } } },
+                return await BookClub.findOneAndUpdate(
+                    { _id: clubId },
+                    { $push: { discussion: { body, user: context.user._id } } },
                     { new: true }
-                );
-
-                return updatedBookClub;
+                ).populate('discussion.user')
             }
-
             throw new AuthenticationError('You need to be logged in!');
         },
 

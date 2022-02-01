@@ -37,6 +37,13 @@ query bookClub($clubId: ID!) {
       username
       _id
     }
+    discussion {
+      body
+      createdAt
+      user {
+        username
+      }
+    }
   }
 }
 `;
@@ -64,7 +71,7 @@ query popularClubs {
     meetingTime
     speed
   
-    bookId,
+    bookId
     title
     description
     imgUrl

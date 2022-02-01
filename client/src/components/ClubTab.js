@@ -1,11 +1,22 @@
 import { FaDoorOpen } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
+import { useMutation } from '@apollo/client'
+import { JOIN_CLUB } from '../utils/mutations'
+import Auth from '../utils/auth'
 
 export default function ClubTab({ clubData, onProfile }) {
     const navigate = useNavigate()
+    const [joinClub] = useMutation(JOIN_CLUB)
 
     function openClub() {
         navigate(`/club/${clubData._id}`)
+    }
+
+    function handleJoin() {
+        joinClub({
+            variables: { clubId: clubData._id }
+        })
+        openClub()
     }
 
     return (
@@ -37,7 +48,14 @@ export default function ClubTab({ clubData, onProfile }) {
                             <p className=''>{clubData.meetingDay} at {clubData.meetingTime} ({clubData.speed.toLowerCase()}) with {clubData.members.length} members</p>
                         </div>
                         <div className='flex justify-end'>
-                            <button>Join</button>
+                            {Auth.loggedIn() && (
+                                <button
+                                    type='button'
+                                    onClick={handleJoin}
+                                >
+                                    Join
+                                </button>
+                            )}
                         </div>
 
                     </>

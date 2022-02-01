@@ -1,5 +1,4 @@
 function setCurrentBook(book) {
-    console.log("Current Book: " + JSON.stringify(book));
     return {
         type: "SET_CURRENT_BOOK",
         payload: book

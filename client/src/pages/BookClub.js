@@ -4,13 +4,30 @@ import { useParams } from 'react-router-dom'
 
 import Member from '../components/Member'
 import BookTab from '../components/BookTab'
+import Message from '../components/Message'
+
+import {FaAngleDown, FaAngleUp} from 'react-icons/fa'
+import { useState } from 'react'
 
 export default function BookClub() {
     const { clubId } = useParams()
     const { data, loading } = useQuery(QUERY_BOOKCLUB, {
         variables: { clubId }
     })
-    console.log(data)
+    const [expandMessages, setExpandMessages] = useState(true)
+
+    function toggleSize(e) {
+        console.log(e.currentTarget)
+        console.log(e.currentTarget.dataset.expand)
+        if (e.currentTarget.dataset.expand) {
+            e.currentTarget.dataset.expand = false
+            e.currentTarget.innerHTML = <FaAngleUp/>
+        } else {
+            e.currentTarget.dataset.expand = true
+            e.currentTarget.innerHTML = <FaAngleDown/>
+        }
+    }
+
     const bookClub = data?.bookClub || {}
     const bookData = {
         bookId: bookClub.bookId,
@@ -28,7 +45,7 @@ export default function BookClub() {
         )
     }
     return (
-        <div>
+        <div className='pb-12'>
             <div>
                 <BookTab book={bookData} isInClub={true} />
             </div>
@@ -44,7 +61,7 @@ export default function BookClub() {
                     <div className='p-2'>
                         <h2>Members ({bookClub.members.length})</h2>
                         <div className='border-2 p-2 h-48 overflow-auto'>
-                            {bookClub.members.map(member => <Member key={member._id} member={member} /> )}
+                            {bookClub.members.map(member => <Member key={member._id} member={member} />)}
                         </div>
                     </div>
                 </div>
@@ -55,8 +72,32 @@ export default function BookClub() {
 
             </div>
 
-            <div>
-                DISCUSSION & FORM
+            <div className='p-2 border'>
+                <div>
+                    <div className='border p-4 flex flex-col-reverse overflow-auto gap-3'>
+                        {bookClub.discussion.length && (
+                            bookClub.discussion.map(message => <Message message={message} />)
+                        ) || (
+                                <div>
+                                    <p className='text-center'>Start the discussion!</p>
+                                </div>
+                            )}
+                    </div>
+                    <div className='flex flex-row-reverse'>
+                        <button 
+                        onClick={toggleSize}
+                        data-expand={true}
+                        >
+                            <FaAngleDown/>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <form>
+                        <textarea />
+                        <button>Send</button>
+                    </form>
+                </div>
             </div>
         </div>
     )

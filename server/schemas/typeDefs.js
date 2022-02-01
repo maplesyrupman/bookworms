@@ -14,9 +14,9 @@ type User {
         bookClubs: [BookClub]
     }
 
-    type Discussion {
+    type Message {
         _id: ID
-        discussionBody: String
+        body: String
         createdAt: String
         user: User  
     }
@@ -39,7 +39,6 @@ type User {
         meetingDay: String
         meetingTime: String
 
-        bookId: String!
         title: String
         description: String
         imgUrl: String
@@ -50,7 +49,7 @@ type User {
         creator: String
         members: [User]
         membersCount: Int
-        discussion: [Discussion]
+        discussion: [Message]
     }
 
     type Event {
@@ -75,7 +74,7 @@ type User {
         signup(username: String!, email: String!, password: String!): Auth
         createClub(clubName: String!, speed: String!, type: String!, meetingDay: String!, meetingTime: String!, bookId: String!, title: String!, description: String!, authors: [String]!, imgUrl: String!): BookClub
         joinClub(clubId: ID!): BookClub
-        addDiscussion(bookClubId:String, discussionBody: String, username: String): BookClub
+        addMessage(clubId: ID!, body: String!): BookClub
         addEvent(eventName: String!, eventDate: String, location: String, link: String): Event
     }
 
