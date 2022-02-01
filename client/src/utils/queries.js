@@ -1,24 +1,17 @@
 import { gql } from '@apollo/client';
 
 export const QUERY_BOOKCLUBS = gql`
-query{
-  bookClubs {
+query bookClubs($bookId: String!){
+  bookClubs(bookId: $bookId) {
+    clubName
     _id
-    username
-    bookClubName
-    createdAt
-    bookId,
-    title
-    description
-    authors
-    imgUrl
-    discussions{
-      _id
-       discussionBody
-       createdAt
-       username
-                   
-     }
+    meetingDay
+    meetingTime
+    speed
+    members {
+      username
+    }
+    creator
    }
 }
 `;
@@ -44,12 +37,21 @@ query bookClub($clubId: ID!) {
       username
       _id
     }
-    events {
+
+events {
       _id
       eventName
       eventDate
       location
       link
+
+discussion {
+      _id
+      body
+      createdAt
+      user {
+        username
+      }
     }
   }
 }
@@ -78,7 +80,7 @@ query popularClubs {
     meetingTime
     speed
   
-    bookId,
+    bookId
     title
     description
     imgUrl

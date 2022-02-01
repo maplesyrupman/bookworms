@@ -7,11 +7,11 @@ export default function BookResults() {
     const [books, setBooks] = useState(undefined)
     const { query } = useParams()
 
+
     useEffect(async () => {
         setBooks(undefined)
         googleBook(query)
             .then(results => {
-                // console.log("Book: " + JSON.stringify(results));
                 setBooks(results)
             })
     }, [query])
@@ -19,7 +19,7 @@ export default function BookResults() {
     return (
         <div>
             {books && (
-                books.map(book => book.authors ? <BookTab key={book.imgUrl} book={book} isInClub={false} /> : null)
+                books.map(book => book.authors ? <BookTab key={book.imgUrl} book={book} isInSearch={true} /> : null)
             )}
 
             {!books && (

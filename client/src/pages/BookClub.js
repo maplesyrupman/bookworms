@@ -12,6 +12,11 @@ import Event from '../components/Event'
 import { ADD_EVENT } from '../utils/mutations'
 import { useMutation } from '@apollo/client'
 
+
+import Message from '../components/Message'
+import {FaAngleDown, FaAngleUp} from 'react-icons/fa'
+
+
 export default function BookClub() {
     const [show, setShow] = useState(false);
 
@@ -22,6 +27,15 @@ export default function BookClub() {
     const { data, loading } = useQuery(QUERY_BOOKCLUB, {
         variables: { clubId }
     })
+
+    const [messagesExpanded, setMessagesExpanded] = useState(false)
+
+    function toggleMessagesExpanded() {
+        setMessagesExpanded(!messagesExpanded)
+        if (messagesExpanded) {
+
+        }
+    }
 
     const bookClub = data?.bookClub || {}
     const bookData = {
@@ -77,7 +91,7 @@ export default function BookClub() {
         )
     }
     return (
-        <div>
+        <div className='pb-12'>
             <div>
                 <BookTab book={bookData} isInClub={true} />
             </div>
@@ -167,8 +181,31 @@ export default function BookClub() {
 
             </div>
 
-            <div>
-                DISCUSSION & FORM
+            <div className='p-2 border'>
+                <div>
+                    <div className={`border p-4 flex flex-col-reverse overflow-auto gap-3 ${messagesExpanded ? 'expanded' : 'max-h-96'}`}>
+                        {bookClub.discussion.length && (
+                            bookClub.discussion.map(message => <Message key={message._id} message={message} />)
+                        ) || (
+                                <div>
+                                    <p className='text-center'>Start the discussion!</p>
+                                </div>
+                            )}
+                    </div>
+                    <div className='flex flex-row-reverse'>
+                        <button 
+                        onClick={toggleMessagesExpanded}
+                        >
+                            {(messagesExpanded && <FaAngleUp/>) || <FaAngleDown/>}
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <form>
+                        <textarea />
+                        <button>Send</button>
+                    </form>
+                </div>
             </div>
         </div>
     )

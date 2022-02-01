@@ -11,6 +11,7 @@ import BookResults from './pages/BookResults';
 import NewClubForm from './pages/NewClub';
 import Club from './pages/BookClub'
 import Profile from './pages/Profile'
+import ClubsList from './pages/ClubsList'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3007/graphql'
@@ -43,6 +44,7 @@ function App() {
             <Route path='books/:query' element={<BookResults />} />
             <Route path='clubs/'>
               <Route path='newClub' element={<NewClubForm />} />
+              <Route path=':bookId' element={<ClubsList />} />
             </Route>
             <Route path='club/:clubId' element={<Club/>} />
             <Route path='profile' element={<Profile/>} />

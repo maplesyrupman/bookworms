@@ -7,12 +7,10 @@ const testBook = { title: "Dune", authors: ['Frank Herbert'], description: "Foll
 
 
 export default function Home() {
-    const { data, loading_clubs } = useQuery(QUERY_POPULAR_CLUBS);
-    console.log("Popular Books: " + JSON.stringify(data));
+    const { data, loading } = useQuery(QUERY_POPULAR_CLUBS);
+    // const { data_books, loading_books } = QUERY_POPULAR_CLUBS;
 
-    const { data_books, loading_books } = QUERY_POPULAR_CLUBS;
-
-    if (loading_clubs || loading_books) {
+    if (loading) {
         return (
             <div>
                 <img src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.5/images/bx_loader.gif"></img>
@@ -31,9 +29,9 @@ export default function Home() {
                 </div>
                 <div>
                 <h2>Popular Books</h2>
-                    <div className="flex flex-col gap-2">
-                        {data_books && data_books.popularClubs.map(club => <ClubTab key={club._id} clubData={club} />)}
-                    </div>
+                    {/* <div className="flex flex-col gap-2">
+                        {data && data.popularClubs.map(club => <ClubTab key={club._id} clubData={club} />)}
+                    </div> */}
                 </div>
             </div>
         </div>

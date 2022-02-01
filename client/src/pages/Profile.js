@@ -24,7 +24,7 @@ export default function Profile() {
                 <div>
                     <h2>Your Clubs:</h2>
                     <div className="flex flex-col gap-2">
-                        {data.user.bookClubs.map(club => <ClubTab key={club._id} clubData={club} />)}
+                        {data.user.bookClubs.map(club => <ClubTab key={club._id} clubData={club} onProfile={true} />)}
                     </div>
                 </div>
                 <div>

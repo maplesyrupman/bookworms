@@ -3,7 +3,7 @@ import { setCurrentBook } from "../redux/actions"
 import { useNavigate } from "react-router-dom"
 import Auth from '../utils/auth'
 
-export default function BookTab({ book, isInClub }) {
+export default function BookTab({ book, isInSearch }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { bookId, title, authors, description, imgUrl } = book
@@ -14,8 +14,11 @@ export default function BookTab({ book, isInClub }) {
     }
 
     function handleExplore() {
-
+        dispatch(setCurrentBook({ ...book }))
+        navigate(`/clubs/${book.bookId}`)
     }
+
+
     return (
         <div className="w-full bg-yellow-500 p-4 border-2 rounded-lg my-4">
             <div className="grid grid-cols-8">
@@ -31,17 +34,10 @@ export default function BookTab({ book, isInClub }) {
                 </div>
 
                 <div className="col-span-1 w-full px-8 pt-4">
-                    {/* <div className="text-center text-2xl">Clubs</div>
-
-                    <div className='flex flex-col'>
-                        <p className='inline'>Waiting: <span>5</span></p>
-                        <p className='inline'>Started: <span>7</span></p>
-                        <p className='inline'>Total: <span>12</span></p>
-                        <p className='inline'>All Time: <span>43</span></p>
-                    </div> */}
+                    {/* place holder */}
                 </div>
 
-                {!isInClub && (
+                {isInSearch && (
                     <div className="col-span-1 w-full flex flex-col gap-2 justify-center align-center">
                         <div className="flex justify-center">
                             <button

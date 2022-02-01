@@ -20,24 +20,18 @@ const resolvers = {
 
         },
 
-        bookClubs: async (parent, {title, authors}) => {
-            return await BookClub.find({
-                bookId,
-                title,
-                authors
-            })
-            .populate('members')
-            .populate('events')
-            .sort({ createdAt: -1 })
+
+
+        bookClubs: async (parent, { bookId }) => {
+            console.log(bookId)
+            return await BookClub.find({ bookId })
+                .populate('members')
+                .populate('events')
+                .sort({ createdAt: -1 })
         },
 
         bookClub: async (parent, { clubId }) => {
-            console.log(clubId)
-            const club = await BookClub.findById(clubId)
-                .populate('members')
-                .populate('events')
-            console.log(club)
-            return club
+            return await BookClub.findById(clubId).populate('members').populate('discussion.user').populate('events')
         },
 
         popularClubs: async () => {
@@ -77,6 +71,7 @@ const resolvers = {
         },
 
         createClub: async (parent, args, context) => {
+            console.log(args)
             if (context.user) {
                 const bookClub = await BookClub.create({ ...args, creator: context.user.username, members: [context.user._id] })
                 await User.findByIdAndUpdate(
@@ -91,17 +86,17 @@ const resolvers = {
             throw new AuthenticationError('You need to be logged in!');
         },
 
-        joinClub: async (parent, {clubId}, context) => {
+        joinClub: async (parent, { clubId }, context) => {
             if (context.user) {
                 const bookClub = await BookClub.findByIdAndUpdate(
                     clubId,
-                    { $addToSet: {members: context.user._id}},
-                    {new: true}
+                    { $addToSet: { members: context.user._id } },
+                    { new: true }
                 ).populate('members')
 
                 await User.findByIdAndUpdate(
                     context.user._id,
-                    {$addToSet: { bookClubs: clubId }}
+                    { $addToSet: { bookClubs: clubId } }
                 )
 
                 return bookClub
@@ -110,17 +105,21 @@ const resolvers = {
             throw new AuthenticationError('You must be logged in to join a club')
         },
 
-        addDiscussion: async (parent, { bookClubId, discussionBody }, context) => {
+        addMessage: async (parent, { clubId, body }, context) => {
             if (context.user) {
-                const updatedBookClub = await BookClub.findOneAndUpdate(
-                    { _id: bookClubId },
-                    { $push: { discussions: { discussionBody, username: context.user.username } } },
+                return await BookClub.findOneAndUpdate(
+                    { _id: clubId },
+                    {
+                        $push: {
+                            discussion: {
+                                $each: [{ body, user: context.user._id }],
+                                $position: 0
+                            }
+                        }
+                    },
                     { new: true }
-                );
-
-                return updatedBookClub;
+                ).populate('discussion.user')
             }
-
             throw new AuthenticationError('You need to be logged in!');
         },
 
