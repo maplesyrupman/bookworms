@@ -1,30 +1,26 @@
 import { useQuery } from '@apollo/client'
 import { QUERY_BOOKCLUB } from '../utils/queries'
 import { useParams } from 'react-router-dom'
+import { useState } from 'react'
 
 import Member from '../components/Member'
 import BookTab from '../components/BookTab'
 import Message from '../components/Message'
 
 import {FaAngleDown, FaAngleUp} from 'react-icons/fa'
-import { useState } from 'react'
+
 
 export default function BookClub() {
     const { clubId } = useParams()
     const { data, loading } = useQuery(QUERY_BOOKCLUB, {
         variables: { clubId }
     })
-    const [expandMessages, setExpandMessages] = useState(true)
+    const [messagesExpanded, setMessagesExpanded] = useState(false)
 
-    function toggleSize(e) {
-        console.log(e.currentTarget)
-        console.log(e.currentTarget.dataset.expand)
-        if (e.currentTarget.dataset.expand) {
-            e.currentTarget.dataset.expand = false
-            e.currentTarget.innerHTML = <FaAngleUp/>
-        } else {
-            e.currentTarget.dataset.expand = true
-            e.currentTarget.innerHTML = <FaAngleDown/>
+    function toggleMessagesExpanded() {
+        setMessagesExpanded(!messagesExpanded)
+        if (messagesExpanded) {
+
         }
     }
 
@@ -74,9 +70,9 @@ export default function BookClub() {
 
             <div className='p-2 border'>
                 <div>
-                    <div className='border p-4 flex flex-col-reverse overflow-auto gap-3'>
+                    <div className={`border p-4 flex flex-col-reverse overflow-auto gap-3 ${messagesExpanded ? 'expanded' : 'max-h-96'}`}>
                         {bookClub.discussion.length && (
-                            bookClub.discussion.map(message => <Message message={message} />)
+                            bookClub.discussion.map(message => <Message key={message._id} message={message} />)
                         ) || (
                                 <div>
                                     <p className='text-center'>Start the discussion!</p>
@@ -85,10 +81,9 @@ export default function BookClub() {
                     </div>
                     <div className='flex flex-row-reverse'>
                         <button 
-                        onClick={toggleSize}
-                        data-expand={true}
+                        onClick={toggleMessagesExpanded}
                         >
-                            <FaAngleDown/>
+                            {(messagesExpanded && <FaAngleUp/>) || <FaAngleDown/>}
                         </button>
                     </div>
                 </div>

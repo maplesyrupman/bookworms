@@ -33,4 +33,8 @@ h2 {
   font-size: 25px;
 }
 
+.expanded {
+  height: 75vh;
+}
+
 @tailwind utilities;

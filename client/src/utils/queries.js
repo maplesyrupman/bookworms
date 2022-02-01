@@ -38,6 +38,7 @@ query bookClub($clubId: ID!) {
       _id
     }
     discussion {
+      _id
       body
       createdAt
       user {

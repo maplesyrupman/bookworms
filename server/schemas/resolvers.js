@@ -20,11 +20,11 @@ const resolvers = {
 
         },
 
-        bookClubs: async (parent, {bookId}) => {
+        bookClubs: async (parent, { bookId }) => {
             console.log(bookId)
-            return await BookClub.find({bookId})
-            .populate('members')
-            .sort({ createdAt: -1 })
+            return await BookClub.find({ bookId })
+                .populate('members')
+                .sort({ createdAt: -1 })
         },
 
         bookClub: async (parent, { clubId }) => {
@@ -33,8 +33,8 @@ const resolvers = {
 
         popularClubs: async () => {
             return await BookClub.find()
-            .populate('members')
-            .sort({ memberCount: -1 })
+                .populate('members')
+                .sort({ memberCount: -1 })
         },
     },
 
@@ -82,17 +82,17 @@ const resolvers = {
             throw new AuthenticationError('You need to be logged in!');
         },
 
-        joinClub: async (parent, {clubId}, context) => {
+        joinClub: async (parent, { clubId }, context) => {
             if (context.user) {
                 const bookClub = await BookClub.findByIdAndUpdate(
                     clubId,
-                    { $addToSet: {members: context.user._id}},
-                    {new: true}
+                    { $addToSet: { members: context.user._id } },
+                    { new: true }
                 ).populate('members')
 
                 await User.findByIdAndUpdate(
                     context.user._id,
-                    {$addToSet: { bookClubs: clubId }}
+                    { $addToSet: { bookClubs: clubId } }
                 )
 
                 return bookClub
@@ -105,7 +105,14 @@ const resolvers = {
             if (context.user) {
                 return await BookClub.findOneAndUpdate(
                     { _id: clubId },
-                    { $push: { discussion: { body, user: context.user._id } } },
+                    {
+                        $push: {
+                            discussion: {
+                                $each: [{ body, user: context.user._id }],
+                                $position: 0
+                            }
+                        }
+                    },
                     { new: true }
                 ).populate('discussion.user')
             }
