@@ -44,6 +44,7 @@ events {
       eventDate
       location
       link
+    }
 
 discussion {
       _id
