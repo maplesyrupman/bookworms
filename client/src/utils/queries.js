@@ -32,7 +32,7 @@ query bookClub($clubId: ID!) {
     meetingTime
     speed
   
-    bookId,
+    bookId
     title
     description
     imgUrl
@@ -43,6 +43,13 @@ query bookClub($clubId: ID!) {
     members {
       username
       _id
+    }
+    events {
+      _id
+      eventName
+      eventDate
+      location
+      link
     }
   }
 }

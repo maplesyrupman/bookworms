@@ -1,7 +1,7 @@
 //import models
 const { AuthenticationError } = require('apollo-server-express')
 const { signToken } = require('../utils/auth')
-const { User, BookClub } = require('../models');
+const { User, BookClub, Event } = require('../models');
 
 
 const resolvers = {
@@ -27,12 +27,15 @@ const resolvers = {
                 authors
             })
             .populate('members')
+            .populate('events')
             .sort({ createdAt: -1 })
         },
 
         bookClub: async (parent, { clubId }) => {
             console.log(clubId)
-            const club = await BookClub.findById(clubId).populate('members')
+            const club = await BookClub.findById(clubId)
+                .populate('members')
+                .populate('events')
             console.log(club)
             return club
         },
@@ -40,6 +43,7 @@ const resolvers = {
         popularClubs: async () => {
             return await BookClub.find()
             .populate('members')
+            .populate('events')
             .sort({ memberCount: -1 })
         },
     },
@@ -121,8 +125,20 @@ const resolvers = {
         },
 
 
-        addEvent: async (parent, args) => {
-            return await Event.create({ ...args })
+        addEvent: async (parent, args , context) => {
+            
+            if (context.user) {
+                const event = await Event.create({ ...args })
+                await BookClub.findByIdAndUpdate(
+                    { _id: args.clubId },
+                    { $push: { events: event._id } },
+                    { new: true }
+                )
+
+                return event;
+            }
+
+            throw new AuthenticationError('You need to be logged in!');
         }
     }
 }

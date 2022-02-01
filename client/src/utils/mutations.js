@@ -73,4 +73,15 @@ mutation addBook($title : String!, $description: String!, $authors :[String!], $
     }
 }
 `
-
+export const ADD_EVENT = gql`
+mutation AddEvent($eventName: String!, $clubId: ID!, $eventDate: String, $location: String, $link: String) {
+  addEvent(eventName: $eventName, clubId: $clubId, eventDate: $eventDate, location: $location, link: $link) {
+    eventName
+    createdAt
+    eventDate
+    link
+    location
+    _id
+  }
+}
+`

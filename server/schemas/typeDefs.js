@@ -50,6 +50,7 @@ type User {
         members: [User]
         membersCount: Int
         discussion: [Discussion]
+        events: [Event]
     }
 
     type Event {
@@ -75,7 +76,7 @@ type User {
         createClub(clubName: String!, speed: String!, type: String!, meetingDay: String!, meetingTime: String!, bookId: String!, title: String!, description: String!, authors: [String]!, imgUrl: String!): BookClub
         joinClub(clubId: ID!): BookClub
         addDiscussion(bookClubId:String, discussionBody: String, username: String): BookClub
-        addEvent(eventName: String!, eventDate: String, location: String, link: String): Event
+        addEvent(eventName: String!, eventDate: String, location: String, link: String, clubId: ID!): Event
     }
 
 `

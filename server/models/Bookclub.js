@@ -1,4 +1,3 @@
-const eventSchema = require('./Event')
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 const discussionSchema = require('./Discussion')
@@ -64,7 +63,12 @@ const bookClubSchema = new Schema(
             required: true
         },
 
-        events: [eventSchema],
+        events: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Event'
+            }
+        ],
 
         members: [
             {
