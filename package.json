@@ -7,7 +7,7 @@
   "scripts": {
     "develop": "concurrently \"cd server && npx nodemon server.js\" \"cd client && npm start\"",
     "start": " node server/server.js",
-    "install": "cd server && npm i && cd ../client & npm i",
+    "install": "cd server && npm ci && cd ../client && npm ci",
     "build": "cd client && npm run build"
   },
   "keywords": [],
