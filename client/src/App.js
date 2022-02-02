@@ -14,7 +14,7 @@ import Profile from './pages/Profile'
 import ClubsList from './pages/ClubsList'
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3007/graphql'
+  uri: '/graphql'
 })
 
 const authLink = setContext((_, { headers }) => {
