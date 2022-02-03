@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { QUERY_BOOKCLUB } from '../utils/queries'
 import { useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useReducer } from 'react'
 import { Modal } from 'react-bootstrap'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,32 +10,24 @@ import Member from '../components/Member'
 import BookTab from '../components/BookTab'
 import Event from '../components/Event'
 import { ADD_EVENT } from '../utils/mutations'
+import { ADD_MESSAGE } from '../utils/mutations'
+
 import { useMutation } from '@apollo/client'
 
 
 import Message from '../components/Message'
-import {FaAngleDown, FaAngleUp} from 'react-icons/fa'
-
 
 export default function BookClub() {
     const [show, setShow] = useState(false);
+    const [_, forceUpdate] = useReducer((x) => x + 1, 0);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const { clubId } = useParams()
-    const { data, loading } = useQuery(QUERY_BOOKCLUB, {
+    let { data, loading } = useQuery(QUERY_BOOKCLUB, {
         variables: { clubId }
     })
-
-    const [messagesExpanded, setMessagesExpanded] = useState(false)
-
-    function toggleMessagesExpanded() {
-        setMessagesExpanded(!messagesExpanded)
-        if (messagesExpanded) {
-
-        }
-    }
 
     const bookClub = data?.bookClub || {}
     const bookData = {
@@ -46,8 +38,10 @@ export default function BookClub() {
         authors: bookClub.authors
     }
 
-    const [formState, setFormState] = useState({ eventName: '', eventDate: '', location: '', link: '', clubId: clubId });
+    const [formState, setFormState] = useState({ eventName: '', eventDate: '', location: '', link: '', clubId: clubId, body: '' });
     const [addEvent, { eventData, loadingEvent }] = useMutation(ADD_EVENT);
+    const [addMessage, { msgData, loadingMsg }] = useMutation(ADD_MESSAGE);
+
     const [eventDt, setEventDt] = useState(new Date());
 
     function handleChange(e) {
@@ -60,6 +54,9 @@ export default function BookClub() {
                 break
             case 'link':
                 setFormState({ ...formState, link: e.target.value })
+                break
+            case 'body':
+                setFormState({ ...formState, body: e.target.value })
                 break
         }
     }
@@ -81,6 +78,19 @@ export default function BookClub() {
         })
 
         window.location.reload();
+    }
+
+    function handleSubmitMessage(e) {
+        e.preventDefault()
+        console.log(formState);
+        if (!formState.body) {
+            alert('You must provide a message')
+            return
+        }
+        addMessage({
+            variables: { ...formState, ...clubId }
+        })
+        this.forceUpdate()
     }
 
     if (loading) {
@@ -183,9 +193,18 @@ export default function BookClub() {
 
             </div>
 
-            <div className='p-2 border'>
+            <div className='p-2'>
                 <div>
-                    <div className={`border p-4 flex flex-col-reverse overflow-auto gap-3 ${messagesExpanded ? 'expanded' : 'max-h-96'}`}>
+                    <h1 className="text-2xl leading-loose ...">Write a review...</h1>
+                    <div className='w-full align-text-middle'>
+                        <form onSubmit={handleSubmitMessage}>
+                            <textarea className="p-2 border rounded-sm bg-gray-10 w-5/6 align-middle text-sm"
+                                onChange={handleChange}
+                                name='body'/>
+                            <button className="p-3 w-1/6 btn bg-sky-600 hover:bg-sky-700 align-middle">Publish</button>
+                        </form>
+                    </div>
+                    <div className={` p-1 flex flex-col-reverse overflow-auto gap-3`}>
                         {bookClub.discussion.length && (
                             bookClub.discussion.map(message => <Message key={message._id} message={message} />)
                         ) || (
@@ -194,20 +213,8 @@ export default function BookClub() {
                                 </div>
                             )}
                     </div>
-                    <div className='flex flex-row-reverse'>
-                        <button 
-                        onClick={toggleMessagesExpanded}
-                        >
-                            {(messagesExpanded && <FaAngleUp/>) || <FaAngleDown/>}
-                        </button>
-                    </div>
                 </div>
-                <div>
-                    <form>
-                        <textarea />
-                        <button>Send</button>
-                    </form>
-                </div>
+
             </div>
         </div>
     )
