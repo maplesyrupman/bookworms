@@ -70,6 +70,10 @@ const bookClubSchema = new Schema(
             }
         ],
 
+        maxMembers: {
+            type: Number
+        },
+
         members: [
             {
                 type: Schema.Types.ObjectId,

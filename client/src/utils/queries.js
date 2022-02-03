@@ -24,7 +24,8 @@ query bookClub($clubId: ID!) {
     meetingDay
     meetingTime
     speed
-  
+    maxMembers
+    
     bookId
     title
     description

@@ -89,6 +89,8 @@ export default function BookClub() {
                 Loading...
             </div>
         )
+    } else {
+        console.log(data)
     }
     return (
         <div className='pb-12'>

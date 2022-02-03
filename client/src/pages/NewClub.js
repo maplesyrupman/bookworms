@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom'
 
 export default function NewClubForm() {
     const book = useSelector((state) => state.currentBook)
-    const {bookId, title, authors, description, imgUrl} = book
-    const [formState, setFormState] = useState({ clubName: '', speed: 'Slow', type: 'In person', meetingDay: 'Monday', meetingTime: '12 AM' })
-    const [createClub, {data, loading}] = useMutation(CREATE_ClUB)
+    const { bookId, title, authors, description, imgUrl } = book
+    const [formState, setFormState] = useState({ clubName: '', speed: 'Slow', type: 'In person', meetingDay: 'Monday', meetingTime: '12 AM', maxMembers: undefined })
+    const [createClub, { data, loading }] = useMutation(CREATE_ClUB)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -17,6 +17,17 @@ export default function NewClubForm() {
             navigate(`/club/${data.createClub._id}`)
         }
     }, [data, loading])
+
+    function maxMembersChange(e) {
+        console.log(e.target.value)
+        if (e.target.value === '') {
+            document.getElementById('maxMembers').classList.add('!border-red-500')
+            return
+        } else {
+            document.getElementById('maxMembers').classList.remove('!border-red-500')
+            setFormState({ ...formState, maxMembers: parseInt(e.target.value)})
+        }
+    }
 
     function handleChange(e) {
         switch (e.target.name) {
@@ -36,6 +47,8 @@ export default function NewClubForm() {
                 console.log('here we are')
                 setFormState({ ...formState, meetingTime: e.target.value })
                 break
+            default:
+                return formState
         }
     }
 
@@ -44,9 +57,13 @@ export default function NewClubForm() {
         if (!formState.clubName) {
             alert('You must provide a name for the club')
             return
+        } else if (!formState.maxMembers) {
+            alert('You must provide a number for the maximum total members')
+            return
         }
+        console.log(formState)
         createClub({
-            variables: {...formState, ...book}
+            variables: { ...formState, ...book }
         })
     }
 
@@ -60,9 +77,9 @@ export default function NewClubForm() {
 
     return (
         <div className="lg:p-24 md:p-12">
-            <form 
-            className="w-full max-w-lg border-2 mx-auto"
-            onSubmit={handleSubmit}
+            <form
+                className="w-full max-w-lg border-2 mx-auto"
+                onSubmit={handleSubmit}
             >
                 <div className='flex justify-center bg-green-300 py-3'>
                     <h2 className=''>New Club</h2>
@@ -198,12 +215,33 @@ export default function NewClubForm() {
                             </div>
                         </div>
                     </div>
+
+                    <div className="flex flex-wrap -mx-3 mb-2 flex justify-center">
+
+                        <div className="w-full md:w-1/3 pl-3 mb-6 md:mb-0">
+                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="maxMembers">
+                                Total Member Limit
+                            </label>
+                            <div className="relative">
+                                <input className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    id="maxMembers"
+                                    onBlur={maxMembersChange}
+                                    type='number'
+                                    name='maxMembers'
+                                >
+                                </input>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className='mt-16 flex justify-center'>
                         <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                             Create!
                         </button>
                     </div>
                 </div>
+
+
 
             </form>
         </div>
