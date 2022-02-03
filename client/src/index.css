@@ -38,13 +38,4 @@ h2 {
   font-size: 25px;
 }
 
-.photo {
-  width: auto;
-  height: 300px;
-  margin-bottom: 50px;
-  cursor: pointer;
-  border-radius: 5px;
-  position: relative;
-}
-
 @tailwind utilities;

@@ -1,42 +1,49 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
+import { useState } from 'react'
 import { useQuery } from "@apollo/client"
 import { QUERY_USER } from '../utils/queries'
 import Auth from '../utils/auth'
 import ClubTab from "../components/ClubTab"
-// import { useParams } from 'react-router-dom'
-// import BookTab from '../components/BookTab'
-// import googleBook from '../utils/bookSearch'
+import ReactDom from "react-dom"
 
 
 export default function Profile() {
-    const [images, setImages] = useState([])
-    const [imageURLs, setImageURLs] = useState([])
+
+    const uploadedImage = React.useRef(null);
+    const imageUploader = React.useRef(null);
+
+    const [status, setStatus] = useState(null)
+    const [print, setPrint] = useState(false)
 
     const { _id, username } = Auth.getProfile().data
     const { data, loading } = useQuery(QUERY_USER, { variables: { userId: _id } })
 
-    // const [books, setBooks] = useState(undefined)
-    // const { query } = useParams()
 
 
-    // useEffect(async () => {
-    //     setBooks(undefined)
-    //     googleBook(query)
-    //         .then(results => {
-    //             setBooks(results)
-    //         })
-    // }, [query])
+    const handleImageUpload = e => {
+        const [file] = e.target.files;
+        if (file) {
+            const reader = new FileReader();
+            const { current } = uploadedImage;
+            current.file = file;
+            reader.onload = (e) => {
+                current.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
 
-    useEffect(() => {
-        if (images.length < 1) return;
-        const newImageURLs = [];
-        images.forEach(image => newImageURLs.push(URL.createObjectURL(image)));
+    function getStatus(e) {
+        console.warn(e.target.value)
+        setStatus(e.target.value)
+        setPrint(false)
+    }
 
-        setImageURLs(newImageURLs);
-    }, [images])
-
-    function onImageChange(e) {
-        setImages([...e.target.files]);
+    function submitStatus() {
+        console.debug("Submit status called")
+        const statusBox = document.getElementById("statusBox")
+        statusBox.value = ""
+        setPrint(true)
     }
 
     if (loading) {
@@ -50,19 +57,39 @@ export default function Profile() {
     return (
         <div >
             <div className="grid grid-cols-3" style={{ height: "300px", marginBottom: "30px", border: "2px solid black" }}>
-                <div style={{
-                    height: "300",
-                    width: "300",
-                    border: "2px dashed black"
-                }}>
-                    {imageURLs.map(imageSrc => <img src={imageSrc} alt="profile pics" className="photo" onProfile={true} />)}
-                    <input type="file" multiple accept="image/*" onChange={onImageChange} />
+                <div
+                    style={{
+                        height: "200px",
+                        width: "200px",
+                        border: "1px dashed black",
 
+
+                    }}
+                    onClick={() => imageUploader.current.click()}
+                >
+                    <img
+                        ref={uploadedImage}
+                        style={{
+                            width: "200px",
+                            height: "200px",
+                            position: "absolute"
+                        }}
+                        alt="profile pic"
+                    />
+                    <input type="file" accept="image/*" onChange={handleImageUpload} ref={imageUploader} style={{ display: "none" }} />
+                    Click to upload Image
                 </div>
 
-                <div >
+                <div>
+
                     <h2>Hello {username} ! </h2>
-                    <h3>ABOUT ME</h3>
+                    <div style={{ marginTop: "30px" }}>{print ? <p style={{ fontFamily: "cursive" }}>{status}</p> : null}</div>
+                    <div style={{ marginTop: "100px" }}>
+                        <lable>Would you like to share your Thought of the Day!</lable>
+                        <input id="statusBox" style={{ width: "250px", border: "2px solid black", borderRadius: "5px" }} type="text" defaultValue={status} onChange={getStatus} />
+
+                    </div>
+                    <button onClick={submitStatus}>Submit</button>
                 </div>
 
                 <div>
@@ -70,18 +97,13 @@ export default function Profile() {
 
                 </div>
             </div>
-            <h2>Popular Books</h2>
-            <div className="grid grid-cols-1" style={{ marginTop: "50px", height: "300px", border: "2px solid black" }}>
-                {/* <div >
-                    {books && (
-                        books.map(book => book.authors ? <BookTab key={book.imgUrl} book={book} isInSearch={true} /> : null)
-                    )}
 
-                    {!books && (
-                        <div>Loading</div>
-                    )}
-                </div> */}
+
+            <div style={{ marginTop: "50px", height: "300px", border: "2px solid black" }}>
+                <h2 className="">Popular Books</h2>
+
             </div>
+
             <div className="grid grid-cols-2">
                 <div>
                     <h2>Your Clubs:</h2>
@@ -91,9 +113,10 @@ export default function Profile() {
                 </div>
                 <div>
                     UPCOMING MEETINGS
+
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }
