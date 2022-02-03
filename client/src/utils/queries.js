@@ -63,6 +63,7 @@ export const QUERY_USER = gql`
 query user($userId: ID!) {
   user(userId: $userId) {
     username
+    bio
     bookClubs {
       clubName
       _id
@@ -97,3 +98,14 @@ query popularClubs {
   }
 }
 `;
+
+export const FAV_BOOK = gql`
+  query favBook($bookId: String!) {
+    favBook(bookId: $bookId) {
+      title
+      authors
+      imgUrl
+      description
+    }
+  }
+`

@@ -11,6 +11,7 @@ type User {
         _id: ID!
         username: String
 		email: String
+        bio: String
         bookClubs: [BookClub]
     }
 
@@ -27,7 +28,6 @@ type User {
         authors: [String]
         description: String
         imgUrl: String
-        createdAt: String
     }
     
     type BookClub {
@@ -71,6 +71,7 @@ type User {
         bookClubs(bookId: String!): [BookClub]
         bookClub(clubId: ID!): BookClub
         popularClubs: [BookClub]
+        favBook(bookId: String): Book
     }
 
     type Mutation {

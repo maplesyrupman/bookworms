@@ -21,6 +21,11 @@ const userSchema = new Schema(
       minlength: 5
     },
 
+    bio: {
+      type: String,
+      maxlength: 580
+    },
+
     bookClubs: [
       {
         type: Schema.Types.ObjectId,

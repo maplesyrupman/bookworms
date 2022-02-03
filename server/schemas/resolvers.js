@@ -40,6 +40,16 @@ const resolvers = {
             .populate('events')
             .sort({ memberCount: -1 })
         },
+
+        favBook: async (parent, {bookId}) => {
+            const book = {
+                title: 'Dune', 
+                authors: ['Frank Herbert'],
+                description: 'A really good book.', 
+                imgUrl: 'http://books.google.com/books/content?id=B1hSG45JCX4C&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api'
+            } 
+            return book;
+        }
     },
 
 
@@ -73,7 +83,7 @@ const resolvers = {
         createClub: async (parent, args, context) => {
             console.log(args)
             if (context.user) {
-                const bookClub = await BookClub.create({ ...args, creator: context.user.username, members: [context.user._id] }).populate('members')
+                const bookClub = await BookClub.create({ ...args, creator: context.user.username, members: [context.user._id] })
                 await User.findByIdAndUpdate(
                     { _id: context.user._id },
                     { $push: { bookClubs: bookClub._id } },
