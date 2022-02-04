@@ -2,7 +2,7 @@ import { FaUserCircle } from 'react-icons/fa'
 
 export default function Message({ message }) {
     return (
-        <div className="rounded-lg bg-gray-200">
+        <div className="rounded-lg bg-gray-200 text-gray-900">
             <div>
                 <table>
                     <tbody>

@@ -117,6 +117,7 @@ query UpcomingEvents {
     eventName
     eventDate
     location
+    link
   }
 }
 `;

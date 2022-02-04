@@ -33,13 +33,13 @@ export default function ClubTab({ clubData, onProfile }) {
                             <p>{clubData.title} by {clubData.authors[0]}</p>
                         </div>
                     </div>
-                    <div className="flex justify-center items-center">
+                    {/* <div className="flex justify-center items-center">
                         <button
                             onClick={openClub}
                         >
                             <FaDoorOpen />
                         </button>
-                    </div>
+                    </div> */}
                 </>
             )) || (
                     <>
