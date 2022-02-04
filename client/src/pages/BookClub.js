@@ -109,31 +109,31 @@ export default function BookClub() {
 
             <div className='grid grid-cols-2 gap-3 bg-white'>
 
-                <div className='border-2 col-span-1 p-3'>
+                <div className='col-span-1 p-3'>
                     <div className='flex flex-col gap-1'>
                         <h1 className='text-2xl font-bold leading-none align-text-bottom text-purple-900'>{bookClub.clubName}</h1>
                         <p className='text-sm'>Meets every {bookClub.meetingDay} at {bookClub.meetingTime}</p>
                         <p className='text-sm'>Reading Pace: {bookClub.speed}</p>
                     </div>
                     <div className='p-2'>
-                        <h2>Members ({bookClub.members.length})</h2>
+                        <p className="p-2 flex flex-col text-xl text-purple-900 bg-gray-300 border-4 text-center">Members ({bookClub.members.length})</p>
                         <div className='border-2 p-2 h-48 overflow-auto'>
                             {bookClub.members.map(member => <Member key={member._id} member={member} />)}
                         </div>
                     </div>
                 </div>
 
-                <div className='border-2 col-span-1'>
-                    Meeting Dates
+                <div className='col-span-1'>
                     <>
-                        <button className="btn bg-sky-600 hover:bg-sky-700 float-right" onClick={handleShow}>
-                            Add Event
-                        </button>
                         <div className='p-2'>
-                            <h2>Events ({bookClub.events.length})</h2>
-                            <div className='border-2 p-2 overflow-auto'>
+                        <p className="p-2 text-xl text-purple-900 text-center">Meeting Dates</p>
+
+                            <div className='p-2 overflow-auto'>
                                 {bookClub.events.map(event => <Event key={event._id} event={event} />)}
                             </div>
+                            <button className="p-1 m-2 text-sm text-purple-900 bg-gray-50 border-purple-900 border-2 rounded-lg h-8 float-right" onClick={handleShow}>
+                            Add Event
+                        </button>
                         </div>
 
                         <Modal show={show} onHide={handleClose}>
@@ -142,31 +142,31 @@ export default function BookClub() {
                                 onSubmit={handleSubmit}
                             >
                                 <Modal.Header closeButton>
-                                    <Modal.Title>Add New Event</Modal.Title>
+                                    <Modal.Title className='text-purple-900'>Add New Event</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
 
-                                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                    <input className="p-2 outline-none text-sm bg-gray-100 text-gray-700 pr-2 h-12 rounded-full border-1 border-gray-300 w-full m-2"
                                         id="grid-first-name"
                                         type="text"
                                         placeholder="Event Name"
                                         onChange={handleChange}
                                         name='eventName'
                                     />
-                                    <DateTimePicker className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                    <DateTimePicker className="p-2 outline-none text-sm bg-gray-100 text-gray-700 pr-2 h-12 rounded-full border-1 border-gray-300 w-full m-2"
                                         placeholder="Event Date"
                                         value={formState.eventDate}
                                         onChange={handleDateChange}
                                         name='eventDate'
                                     />
-                                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                    <input className="p-2 outline-none text-sm bg-gray-100 text-gray-700 pr-2 h-12 rounded-full border-1 border-gray-300 w-full m-2"
                                         id="grid-first-name"
                                         type="text"
                                         placeholder="Location"
                                         onChange={handleChange}
                                         name='location'
                                     />
-                                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                    <input className="p-2 outline-none text-sm bg-gray-100 text-gray-700 pr-2 h-12 rounded-full border-1 border-gray-300 w-full m-2"
                                         id="grid-first-name"
                                         type="text"
                                         placeholder="Event Link"
@@ -177,8 +177,8 @@ export default function BookClub() {
 
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <button className='btn bg-sky-600 hover:bg-sky-700' onClick={handleClose}>
-                                        Add
+                                    <button className='mx-auto py-2 px-4 text-gray-100 border-2 rounded-full bg-purple-900 border-purple-900' onClick={handleClose}>
+                                        Add Event
                                     </button>
                                 </Modal.Footer>
                             </form>
@@ -188,26 +188,27 @@ export default function BookClub() {
 
             </div>
 
-            <div className='p-2'>
+            <div className=''>
                 <div>
-                    <Collapsible className='p-2 text-2xl w-full bg-gray-300' trigger="Write a review ...">
-                    <div className={` p-1 flex flex-col-reverse overflow-auto gap-3`}>
-                        {bookClub.discussion.length && (
-                            bookClub.discussion.map(message => <Message key={message._id} message={message} />)
-                        ) || (
-                                <div>
-                                    <p className='text-center'>Start the discussion!</p>
-                                </div>
-                            )}
-                    </div>
-                    <div className='w-full align-text-middle'>
-                        <form onSubmit={handleSubmitMessage}>
-                            <textarea className="p-2 border rounded-sm bg-gray-10 w-5/6 align-middle text-sm"
-                                onChange={handleChange}
-                                name='body' />
-                            <button className="p-3 w-1/6 btn bg-sky-600 hover:bg-sky-700 align-middle">Publish</button>
-                        </form>
-                    </div>
+                    <Collapsible className='p-2 text-2xl w-full text-purple-900 bg-gray-300 mt-3' trigger="Write Reviews ...">
+                        <div className={`p-1 flex flex-col-reverse overflow-auto gap-3`}>
+                            {bookClub.discussion.length && (
+                                bookClub.discussion.map(message => <Message key={message._id} message={message} />)
+                            ) || (
+                                    <div>
+                                        <p className='text-center'>Start the discussion!</p>
+                                    </div>
+                                )}
+                        </div>
+                        <div className='p-2 border-1 rounded-lg w-full align-text-middle mt-3 bg-white'>
+                            <form onSubmit={handleSubmitMessage}>
+                                <textarea className="p-2 outline-none text-sm bg-gray-100 text-gray-700 pr-4 h-30 rounded-full border-4 border-gray-200 w-full align-middle text-sm"
+                                    onChange={handleChange}
+                                    name='body'
+                                    placeholder='Write your review here...'/>
+                                <button className="py-1 px-2 text-sm text-gray-100 border-2 rounded-full bg-purple-900 border-purple-900 m-2 flex">Publish</button>
+                            </form>
+                        </div>
                     </Collapsible>
                 </div>
 

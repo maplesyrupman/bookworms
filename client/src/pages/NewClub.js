@@ -232,7 +232,7 @@ export default function NewClubForm() {
 
                     <div className='mt-8 flex justify-center'>
                         <button 
-                                    className='p-3 text-base text-gray-50 bg-purple-900 border-purple-900 border-2 rounded-full'
+                                    className='mx-auto py-2 px-4 text-gray-100 border-2 rounded-full bg-purple-900 border-purple-900'
                                     >
                             Create Club !
                         </button>
