@@ -1,13 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
 import { useQuery } from "@apollo/client"
-import { QUERY_USER, FAV_BOOK } from '../utils/queries'
+import { QUERY_USER, FAV_BOOK, UPCOMING_EVENTS } from '../utils/queries'
 import Auth from '../utils/auth'
 import ClubTab from "../components/ClubTab"
 import ReactDom from "react-dom"
 import { useParams } from 'react-router-dom'
 import BookTab from '../components/BookTab'
 import googleBook from '../utils/bookSearch'
+import Event from '../components/Event'
 
 
 export default function Profile() {
@@ -20,6 +21,9 @@ export default function Profile() {
 
     const [editMode, setEditMode] = useState(false)
     const [profileData, updateProfileData] = useState({})
+
+    const { data: favBookData, loading: favBookLoading } = useQuery(FAV_BOOK, { variables: { bookId: 'blah' } })
+    const { data: events, loading: eventsLoading } = useQuery(UPCOMING_EVENTS)
 
     let { userId } = useParams()
     userId = userId ? userId : Auth.getProfile().data._id
@@ -188,7 +192,10 @@ export default function Profile() {
                     </div>
                 </div>
                 <div>
-                    UPCOMING MEETINGS
+                     <h2>Upcoming Meetings</h2>
+                    <div className="flex flex-col gap-2">
+                        {events.upcomingEvents.map(event => <Event key={event._id} event={event} />)}
+                    </div>
                 </div>
 
             </div>

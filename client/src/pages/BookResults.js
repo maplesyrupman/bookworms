@@ -17,8 +17,9 @@ export default function BookResults() {
     }, [query])
 
     return (
-        <div>
-            {books && (
+        <div className="p-4">
+        <p className="p-2 flex flex-col text-2xl text-purple-900 bg-gray-300 border-4 text-center">Search results for "{query}"</p>
+        {books && (
                 books.map(book => book.authors ? <BookTab key={book.imgUrl} book={book} isInSearch={true} /> : null)
             )}
 
