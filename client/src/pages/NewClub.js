@@ -76,28 +76,24 @@ export default function NewClubForm() {
     }
 
     return (
-        <div className="lg:p-24 md:p-12">
+        <div className="p-4">
             <form
-                className="w-full max-w-lg border-2 mx-auto"
+                className="border-3 rounded-lg p-2 max-w-lg mx-auto border-purple-900 bg-white"
                 onSubmit={handleSubmit}
             >
-                <div className='flex justify-center bg-green-300 py-3'>
-                    <h2 className=''>New Club</h2>
-                </div>
-
-                <div className='py-4'>
-                    <div className='flex flex-col w-1/2 mx-auto'>
+                <div className='py-2'>
+                    <div className='flex flex-col mx-auto'>
                         <h2 className='text-center text-2xl'>{title}</h2>
                         <h3 className='text-center'> by {authors.join(', ')}</h3>
                     </div>
                 </div>
-                <div className='p-4'>
+                <div className='p-2'>
                     <div className="flex flex-wrap -mx-3 mb-6">
-                        <div className="w-full px-3">
+                        <div className="w-4/6 mx-auto px-3">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
                                 Club Name
                             </label>
-                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            <input className="p-2 outline-none text-sm bg-gray-100 text-gray-700 pr-2 rounded-full border-1 border-gray-300 w-full"
                                 id="grid-first-name"
                                 type="text"
                                 placeholder="BookWormzzz"
@@ -107,13 +103,13 @@ export default function NewClubForm() {
                         </div>
 
                     </div>
-                    <div className="flex flex-wrap -mx-3 mb-2 flex justify-center">
+                    <div className="flex flex-wrap -mx-1 mb-2 flex justify-center">
                         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-state">
                                 Speed
                             </label>
                             <div className="relative">
-                                <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                <select className="p-2 appearance-none outline-none text-sm bg-gray-100 text-gray-700 pr-2 rounded-full border-1 border-gray-300 w-full"
                                     id="grid-state"
                                     onChange={handleChange}
                                     name='speed'
@@ -133,7 +129,7 @@ export default function NewClubForm() {
                                 Type
                             </label>
                             <div className="relative">
-                                <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                <select className="p-2 appearance-none outline-none text-sm bg-gray-100 text-gray-700 pr-2 rounded-full border-1 border-gray-300 w-full"
                                     id="grid-state"
                                     onChange={handleChange}
                                     name='type'
@@ -154,7 +150,7 @@ export default function NewClubForm() {
                                 Day
                             </label>
                             <div className="relative">
-                                <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                <select className="p-2 appearance-none outline-none text-sm bg-gray-100 text-gray-700 pr-2 rounded-full border-1 border-gray-300 w-full"
                                     id="grid-state"
                                     onChange={handleChange}
                                     name='meetingDay'
@@ -178,7 +174,7 @@ export default function NewClubForm() {
                                 Time
                             </label>
                             <div className="relative">
-                                <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                <select className="p-2 appearance-none outline-none text-sm bg-gray-100 text-gray-700 pr-2 rounded-full border-1 border-gray-300 w-full"
                                     id="grid-state"
                                     onChange={handleChange}
                                     name='meetingTime'
@@ -223,7 +219,7 @@ export default function NewClubForm() {
                                 Total Member Limit
                             </label>
                             <div className="relative">
-                                <input className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                <input className="p-2 appearance-none outline-none text-sm bg-gray-100 text-gray-700 pr-2 rounded-full border-1 border-gray-300 w-full"
                                     id="maxMembers"
                                     onBlur={maxMembersChange}
                                     type='number'
@@ -234,9 +230,11 @@ export default function NewClubForm() {
                         </div>
                     </div>
 
-                    <div className='mt-16 flex justify-center'>
-                        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                            Create!
+                    <div className='mt-8 flex justify-center'>
+                        <button 
+                                    className='p-3 text-base text-gray-50 bg-purple-900 border-purple-900 border-2 rounded-full'
+                                    >
+                            Create Club !
                         </button>
                     </div>
                 </div>

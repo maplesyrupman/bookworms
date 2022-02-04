@@ -25,16 +25,16 @@ export default function Nav() {
     }
     return (
         <>
-            <div className="p-4 bg-green-300">
+            <div className="p-2 bg-purple-900">
                 <nav className='columns-3'>
-                    <div className="text-5xl w-full">
+                    <div className="p-2 text-4xl w-full text-slate-300">
                         <Link to='/'>BookWorms</Link>
                     </div>
 
                     <form onSubmit={handleSearch}>
-                        <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-white overflow-hidden">
+                        <div className="p-2 relative flex items-center w-full h-10 rounded-full bg-gray-100 overflow-hidden">
                             <input
-                                className="peer h-full w-full outline-none text-sm text-gray-700 pr-2"
+                                className="peer h-full w-full outline-none text-sm bg-gray-100 text-gray-700 pr-2"
                                 type="text"
                                 id="search"
                                 placeholder="Search something.."
@@ -52,20 +52,20 @@ export default function Nav() {
 
                     <ul className="flex flex-row justify-end">
                         {!Auth.loggedIn() && (
-                            <li className='nav-link'>
+                            <li className='nav-link hover:cursor-pointer text-base text-gray-100 border-2 rounded-full'>
                                 <Link to='/logup'>Sign In</Link>
                             </li>
                         )}
                         {Auth.loggedIn() && (
                             <>
                                 <li
-                                    className="nav-link hover:cursor-pointer"
+                                    className="nav-link hover:cursor-pointer text-base text-gray-100 border-2 rounded-full"
                                     onClick={logout}
                                 >
                                     <p>Logout</p>
                                 </li>
                                 <li
-                                    className="nav-link hover:cursor-pointer"
+                                    className="nav-link hover:cursor-pointer text-base text-gray-100 border-2 rounded-full"
                                 >
                                     <Link to='/profile'>Profile</Link>
                                 </li>

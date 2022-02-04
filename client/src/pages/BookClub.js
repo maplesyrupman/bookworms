@@ -13,6 +13,7 @@ import { ADD_EVENT } from '../utils/mutations'
 import { ADD_MESSAGE } from '../utils/mutations'
 
 import { useMutation } from '@apollo/client'
+import Collapsible from 'react-collapsible';
 
 
 import Message from '../components/Message'
@@ -101,18 +102,18 @@ export default function BookClub() {
         console.log(data)
     }
     return (
-        <div className='pb-12'>
+        <div className='p-4 pb-12'>
             <div>
                 <BookTab book={bookData} isInClub={true} />
             </div>
 
-            <div className='grid grid-cols-2 gap-2'>
+            <div className='grid grid-cols-2 gap-3 bg-white'>
 
                 <div className='border-2 col-span-1 p-3'>
                     <div className='flex flex-col gap-1'>
-                        <h1 className='text-2xl'>{bookClub.clubName}</h1>
-                        <p>Meets every {bookClub.meetingDay} at {bookClub.meetingTime}</p>
-                        <p>Reading Pace: {bookClub.speed}</p>
+                        <h1 className='text-2xl font-bold leading-none align-text-bottom text-purple-900'>{bookClub.clubName}</h1>
+                        <p className='text-sm'>Meets every {bookClub.meetingDay} at {bookClub.meetingTime}</p>
+                        <p className='text-sm'>Reading Pace: {bookClub.speed}</p>
                     </div>
                     <div className='p-2'>
                         <h2>Members ({bookClub.members.length})</h2>
@@ -189,15 +190,7 @@ export default function BookClub() {
 
             <div className='p-2'>
                 <div>
-                    <h1 className="text-2xl leading-loose ...">Write a review...</h1>
-                    <div className='w-full align-text-middle'>
-                        <form onSubmit={handleSubmitMessage}>
-                            <textarea className="p-2 border rounded-sm bg-gray-10 w-5/6 align-middle text-sm"
-                                onChange={handleChange}
-                                name='body' />
-                            <button className="p-3 w-1/6 btn bg-sky-600 hover:bg-sky-700 align-middle">Publish</button>
-                        </form>
-                    </div>
+                    <Collapsible className='p-2 text-2xl w-full bg-gray-300' trigger="Write a review ...">
                     <div className={` p-1 flex flex-col-reverse overflow-auto gap-3`}>
                         {bookClub.discussion.length && (
                             bookClub.discussion.map(message => <Message key={message._id} message={message} />)
@@ -207,7 +200,15 @@ export default function BookClub() {
                                 </div>
                             )}
                     </div>
-
+                    <div className='w-full align-text-middle'>
+                        <form onSubmit={handleSubmitMessage}>
+                            <textarea className="p-2 border rounded-sm bg-gray-10 w-5/6 align-middle text-sm"
+                                onChange={handleChange}
+                                name='body' />
+                            <button className="p-3 w-1/6 btn bg-sky-600 hover:bg-sky-700 align-middle">Publish</button>
+                        </form>
+                    </div>
+                    </Collapsible>
                 </div>
 
             </div>

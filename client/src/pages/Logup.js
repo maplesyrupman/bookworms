@@ -42,29 +42,33 @@ export default function Logup() {
     }
 
     return (
-        <div>
-            <div className="border border-2 rounded p-10 max-w-md mx-auto">
+        <div className="p-3">
+            <div className="border-3 rounded-lg p-10 max-w-md mx-auto border-purple-900 bg-white">
                 <form onSubmit={handleSubmit} className='mx-auto'>
                     <div className="form-field">
                         <label htmlFor="email">Email</label>
-                        <input type='email' name='email' defaultValue={email} onChange={handleChange} className="form-input" />
+                        <input type='email' name='email' defaultValue={email} onChange={handleChange}
+                        className="p-2 outline-none text-sm bg-gray-100 text-gray-700 pr-2 h-8 rounded-full border-1 border-gray-300"/>
                     </div>
                     {isSignup &&
                         <div className="form-field">
                             <label htmlFor="username">Username</label>
-                            <input type='text' name='username' defaultValue={username} onChange={handleChange} className="form-input" />
-                        </div>
+                            <input type='text' name='username' defaultValue={username} 
+                            onChange={handleChange} 
+                            className="p-2 outline-none text-sm bg-gray-100 text-gray-700 pr-2 h-8 rounded-full border-1 border-gray-300"/>
+                            </div>
                     }
                     <div className="form-field">
                         <label htmlFor="password">Password</label>
-                        <input type='password' name='password' defaultValue={password} onChange={handleChange} className="form-input" />
-                    </div>
+                        <input type='password' name='password' defaultValue={password} onChange={handleChange} 
+                        className="p-2 outline-none text-sm bg-gray-100 text-gray-700 pr-2 h-8 rounded-full border-1 border-gray-300"/>
+                        </div>
                     <div className="flex flex-col">
-                        <p className="text-center">
+                        <p className="p-2 text-center">
                             {isSignup ? 'Already have an account? ' : "Don't have an account yet? "}
                             <span className="underline hover:cursor-pointer hover:font-semibold" onClick={toggleSignup}>{isSignup ? 'login' : 'sign up'}</span>
                         </p>
-                        <button type='submit' className="mx-auto text-white font-bold py-2 px-4 rounded">
+                        <button type='submit' className="mx-auto py-2 px-4 text-gray-100 border-2 rounded-full bg-purple-900 border-purple-900">
                             {isSignup ? 'Sign Up' : 'Login'}
                         </button>
                     </div>
