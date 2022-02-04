@@ -20,7 +20,7 @@ export default function Profile() {
 
     const [editMode, setEditMode] = useState(false)
     const [profileData, updateProfileData] = useState({})
-    
+
     const { data: favBookData, loading: favBookLoading } = useQuery(FAV_BOOK, { variables: { bookId: 'blah' } })
 
     let { userId } = useParams()
@@ -76,14 +76,12 @@ export default function Profile() {
 
     return (
         <div >
-            <div className="grid grid-cols-3" style={{ height: "300px", marginBottom: "30px", border: "2px solid black" }}>
+            <div className="grid grid-cols-3" style={{ marginBottom: "20px", padding: "20px", border: "2px solid black" }}>
                 <div
                     style={{
                         height: "200px",
                         width: "200px",
                         border: "1px dashed black",
-
-
                     }}
                     onClick={() => imageUploader.current.click()}
                 >
@@ -91,8 +89,7 @@ export default function Profile() {
                         ref={uploadedImage}
                         style={{
                             width: "200px",
-                            height: "200px",
-                            position: "absolute"
+                            height: "200px"
                         }}
                         alt="profile pic"
                     />
@@ -116,7 +113,7 @@ export default function Profile() {
                             </div>
                         ) || (
                             <div>
-                                <textarea
+                                <textarea style={{ width: "250px", border: "2px solid black", borderRadius: "5px" }}
                                     value={bio}
                                     onChange={updateBio}
                                 />
@@ -124,18 +121,6 @@ export default function Profile() {
                         )
                     }
                 </div>
-                <div>
-
-                    <h2>Hello {username} ! </h2>
-                    <div style={{ marginTop: "30px" }}>{print ? <p style={{ fontFamily: "cursive" }}>{status}</p> : null}</div>
-                    <div style={{ marginTop: "100px" }}>
-                        <lable>Would you like to share your Thought of the Day!</lable>
-                        <input id="statusBox" style={{ width: "250px", border: "2px solid black", borderRadius: "5px" }} type="text" defaultValue={status} onChange={getStatus} />
-
-                    </div>
-                    <button onClick={submitStatus}>Submit</button>
-                </div>
-
                 <div>
                     <div>
                         <h2>My Favourite Book</h2>
@@ -178,8 +163,23 @@ export default function Profile() {
                     <div>
 
                     </div>
-
                 </div>
+                <div>
+
+                    {/* <h2>Hello {username} ! </h2> */}
+                    <div>
+                        <label style={{ fontWeight: 'bold' }}>Thought of the Day: </label>
+                        {print ? <p style={{ fontFamily: "cursive" }}>{status}</p> : null}
+                    </div>
+                    <br />
+                    <div>
+                        <input id="statusBox" style={{ height: "40px", border: "2px solid black", borderRadius: "5px", marginBottom: "10px" }} type="text" defaultValue={status} onChange={getStatus} />
+
+                    </div>
+                    <button onClick={submitStatus} className="btn btn-blue">Submit</button>
+                </div>
+
+
             </div>
 
 
