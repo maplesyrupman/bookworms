@@ -72,6 +72,7 @@ type User {
         bookClub(clubId: ID!): BookClub
         popularClubs: [BookClub]
         favBook(bookId: String): Book
+        upcomingEvents:[Event]
     }
 
     type Mutation {
