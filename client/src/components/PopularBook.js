@@ -45,10 +45,10 @@ export default function PopularBook({ clubData, onProfile }) {
                     <>
                         <div className='flex justify-left gap-2'>
                             <img className='h-16'
-                            src={`https://books.google.com/books/content?id=${clubData.bookId}&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api`}></img>
-                        
-                        <a href={`https://play.google.com/store/books/details?id=${clubData.bookId}`}>
-                            <p className='text-base font-bold leading-none align-text-bottom text-purple-900'>{clubData.title}</p>
+                                src={`https://books.google.com/books/content?id=${clubData.bookId}&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api`}></img>
+
+                            <a href={`https://play.google.com/store/books/details?id=${clubData.bookId}`}>
+                                <p className='text-base font-bold leading-none align-text-bottom text-purple-900'>{clubData.title}</p>
                             </a>
                         </div>
 

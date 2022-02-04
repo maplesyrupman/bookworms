@@ -190,26 +190,15 @@ export default function Profile() {
             </div>
 
 
-            <h2>Popular Books</h2>
-            <div className="grid grid-cols-1" style={{ marginTop: "50px", height: "300px", border: "2px solid black" }}>
-                {/* <div >
-                    {books && (
-                        books.map(book => book.authors ? <BookTab key={book.imgUrl} book={book} isInSearch={true} /> : null)
-                    )}
-                    {!books && (
-                        <div>Loading</div>
-                    )}
-                </div> */}
-            </div>
-            <div className="grid grid-cols-2">
-                <div>
-                    <h2>Your Clubs:</h2>
+            <div className="grid grid-cols-2 gap-4">
+                <div className='bg-white'>
+                <p className="p-2 flex flex-col text-2xl text-purple-900 bg-gray-300 border-4 text-center">Your Clubs</p>
                     <div className="flex flex-col gap-2">
                         {data.user.bookClubs.map(club => <ClubTab key={club._id} clubData={club} onProfile={true} />)}
                     </div>
                 </div>
-                <div>
-                    <h2>Upcoming Meetings</h2>
+                <div className='bg-white'>
+                <p className="p-2 flex flex-col text-2xl text-purple-900 bg-gray-300 border-4 text-center">Upcoming Meetings</p>
                     <div className="flex flex-col gap-2">
                         {events.upcomingEvents.map(event => <Event key={event._id} event={event} />)}
                     </div>

@@ -49,7 +49,7 @@ export default function ClubTab({ clubData, onProfile }) {
                             <p className='text-xs text-gray-500'>Reading Pace: {clubData.speed.toLowerCase()}</p>
 
                         </div>
-                    
+
                         <div className='flex justify-end gap-3'>
                             <p className='text-sm border-1 bg-gray-200 border-gray-400 h-8 w-28 p-1 text-center'>{clubData.members.length} member(s)</p>
                             {Auth.loggedIn() && (

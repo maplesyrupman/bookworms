@@ -229,5 +229,6 @@ export default function BookClub() {
                 </div>
             </div>
         </div>
+
     )
 }
