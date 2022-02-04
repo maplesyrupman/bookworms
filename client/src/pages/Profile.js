@@ -14,13 +14,12 @@ export default function Profile() {
     const [editMode, setEditMode] = useState(false)
     const [profileData, updateProfileData] = useState({})
 
-    const {data: favBookData, loading: favBookLoading} = useQuery(FAV_BOOK, {variables: {bookId: 'blah'}})
-
     let { userId } = useParams()
     userId = userId ? userId : Auth.getProfile().data._id
 
     const { data, loading } = useQuery(QUERY_USER, { variables: { userId } })
     const { _id, username, bio, bookClubs } = data?.user || {}
+
 
     useEffect(() => {
         if (images.length < 1) return;
@@ -42,6 +41,8 @@ export default function Profile() {
     function updateBio(e) {
         updateProfileData({...profileData, bio: e.target.value})
     }
+
+
 
     if (loading) {
         return (
@@ -115,21 +116,7 @@ export default function Profile() {
     
                             </div>
                         </div>
-                        )) || (
-                            favBookLoading ? 
-                            (<div>
-                                Loading...
-                            </div>)
-                            :
-                            favBookData.favBook ?
-                            (<div>
-                                <BookTab book={favBookData.favBook} />
-                            </div>)
-                            :
-                            (<div>
-                                No Fav Book... :(
-                            </div>)
-                        )
+                        ))
                     }
                     <div>
                         
