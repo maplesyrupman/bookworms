@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
-import { useQuery } from "@apollo/client"
+import { useMutation, useQuery } from "@apollo/client"
 import { QUERY_USER, UPCOMING_EVENTS } from '../utils/queries'
-import {UPDATE_USER} from '../utils/mutations'
+import { UPDATE_USER } from '../utils/mutations'
 import Auth from '../utils/auth'
 import ClubTab from "../components/ClubTab"
 import { useParams } from 'react-router-dom'
@@ -27,6 +27,7 @@ export default function Profile() {
     const [favBookResults, setFavBookResults] = useState(undefined)
 
     const { data: events, loading: eventsLoading } = useQuery(UPCOMING_EVENTS)
+    const [updateUser] = useMutation(UPDATE_USER)
 
     let { userId } = useParams()
     userId = userId ? userId : Auth.getProfile().data._id
@@ -61,7 +62,14 @@ export default function Profile() {
     //     setPrint(true)
     // }
 
+    function handleSave() {
+        updateUser({variables: {...profileData}})
+    }
+
     function toggleEdit() {
+        if (editMode) {
+            handleSave()
+        }
         setEditMode(!editMode)
     }
 
@@ -79,7 +87,7 @@ export default function Profile() {
             favBookBookId: div.dataset.bookid
         }
 
-        updateProfileData({ ...profileData, favBook})
+        updateProfileData({ ...profileData, favBook })
         console.log(profileData)
     }
 
@@ -89,7 +97,7 @@ export default function Profile() {
         const title = e.target[0].value
         const books = await googleBook(title)
         books.forEach(book => console.log(book.authors))
-        setFavBookResults(books.map(book => book ? <FavBookSearchResult book={book} key={book.bookId}  /> : null))
+        setFavBookResults(books.map(book => book ? <FavBookSearchResult book={book} key={book.bookId} /> : null))
     }
 
 
@@ -113,11 +121,11 @@ export default function Profile() {
                     className='col-span-1'
                 >
                     <FaUserCircle
-                    className='h-full w-full'
+                        className='h-full w-full'
                     />
                 </div>
                 <div
-                className='col-span-2'
+                    className='col-span-2'
                 >
                     <div className=''>
                         <h2>{username}</h2>
@@ -158,10 +166,10 @@ export default function Profile() {
                                         <button>Search</button>
                                     </div>
                                 </form>
-                                <div 
-                                id='favBookSearchResults'
-                                className='overflow-auto max-h-200px border p-1 flex flex-col gap-1'
-                                onClick={updateFavBook}
+                                <div
+                                    id='favBookSearchResults'
+                                    className='overflow-auto max-h-200px border p-1 flex flex-col gap-1'
+                                    onClick={updateFavBook}
                                 >
                                     {favBookResults}
                                 </div>
@@ -192,13 +200,13 @@ export default function Profile() {
 
             <div className="grid grid-cols-2 gap-4">
                 <div className='bg-white'>
-                <p className="p-2 flex flex-col text-2xl text-purple-900 bg-gray-300 border-4 text-center">Your Clubs</p>
+                    <p className="p-2 flex flex-col text-2xl text-purple-900 bg-gray-300 border-4 text-center">Your Clubs</p>
                     <div className="flex flex-col gap-2">
                         {data.user.bookClubs.map(club => <ClubTab key={club._id} clubData={club} onProfile={true} />)}
                     </div>
                 </div>
                 <div className='bg-white'>
-                <p className="p-2 flex flex-col text-2xl text-purple-900 bg-gray-300 border-4 text-center">Upcoming Meetings</p>
+                    <p className="p-2 flex flex-col text-2xl text-purple-900 bg-gray-300 border-4 text-center">Upcoming Meetings</p>
                     <div className="flex flex-col gap-2">
                         {events.upcomingEvents.map(event => <Event key={event._id} event={event} />)}
                     </div>

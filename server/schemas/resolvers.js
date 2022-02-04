@@ -51,6 +51,8 @@ const resolvers = {
             return book;
         },
 
+
+
         upcomingEvents: async () => {
             return await Event.find(
                 {
@@ -87,6 +89,17 @@ const resolvers = {
 
             const token = signToken(user);
             return { token, user };
+        },
+
+        updateUser: async (parent, args, context) => {
+            const user = await User.findByIdAndUpdate(
+                context.user._id,
+                {
+                    ...args
+                }
+            )
+
+            return user
         },
 
         createClub: async (parent, args, context) => {

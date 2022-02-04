@@ -22,7 +22,7 @@ export default function ClubTab({ clubData, onProfile }) {
     return (
         <div className={`border-b-4 h-20 p-2 ${onProfile ? 'flex' : 'grid grid-cols-2'}`}>
             {(onProfile && (
-                <>
+                <div className='flex'>
                     <div>
                         <p className='text-base font-bold leading-none align-text-bottom text-purple-900'>
                             <Link to={`/club/${clubData._id}`}>
@@ -33,14 +33,15 @@ export default function ClubTab({ clubData, onProfile }) {
                             <p>{clubData.title} by {clubData.authors[0]}</p>
                         </div>
                     </div>
-                    <div className="flex justify-center items-center">
+
                         <button
                             onClick={openClub}
+                            className='ml-10'
                         >
                             <FaDoorOpen />
                         </button>
-                    </div>
-                </>
+
+                </div>
             )) || (
                     <>
                         <div className='justify-left'>

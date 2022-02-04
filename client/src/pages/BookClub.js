@@ -107,7 +107,7 @@ export default function BookClub() {
         console.log(data)
     }
     return (
-        <div className='p-4 pb-12'>
+        <div className='p-4 pb-20'>
             <div>
                 <BookTab book={bookData} isInClub={true} />
             </div>
@@ -193,7 +193,7 @@ export default function BookClub() {
 
             </div>
 
-            <div className=''>
+            <div className='pb-12'>
                 <div className=''>
                     <div className='p-2 text-2xl w-full text-purple-900 bg-gray-300 mt-3 border bg-white'>
                         <h3>Discussion</h3>

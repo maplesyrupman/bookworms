@@ -2,6 +2,7 @@ import { Outlet, Link, useNavigate, } from "react-router-dom";
 import { useState } from 'react'
 import { BsSearch } from 'react-icons/bs'
 import Auth from '../utils/auth'
+import Footer from '../components/Footer'
 
 import googleBook from '../utils/bookSearch'
 
@@ -75,9 +76,14 @@ export default function Nav() {
                 </nav>
             </div>
 
-            <div className="container mx-auto lg:px-24">
-                <Outlet />
+            <div className="position-relative">
+                <div className="container lg:px-24 position-relative">
+                    <Outlet />
+                </div>
+                <Footer />
             </div>
+
+
         </>
     )
 }
