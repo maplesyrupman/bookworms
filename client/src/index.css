@@ -25,6 +25,10 @@
   @apply bg-blue-700;
 }
 
+.expanded {
+  height: 70vh;
+}
+
 h1,
 h2,
 h3,

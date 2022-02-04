@@ -49,6 +49,15 @@ const resolvers = {
                 imgUrl: 'http://books.google.com/books/content?id=B1hSG45JCX4C&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api'
             } 
             return book;
+        },
+
+        upcomingEvents: async () => {
+            return await Event.find(
+                {
+                    eventDate: {$gt: new Date()}
+                }
+            )
+            .sort({ eventDate: -1 }).limit(10)
         }
     },
 

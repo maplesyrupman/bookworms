@@ -5,21 +5,22 @@ import { useState, useReducer } from 'react'
 import { Modal } from 'react-bootstrap'
 import DateTimePicker from "react-datetime-picker";
 import "react-datepicker/dist/react-datepicker.css";
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
 
 import Member from '../components/Member'
 import BookTab from '../components/BookTab'
 import Event from '../components/Event'
+import Message from '../components/Message'
 import { ADD_EVENT } from '../utils/mutations'
 import { ADD_MESSAGE } from '../utils/mutations'
 
 import { useMutation } from '@apollo/client'
-import Collapsible from 'react-collapsible';
 
 
-import Message from '../components/Message'
 
 export default function BookClub() {
     const [show, setShow] = useState(false);
+    const [messagesExpanded, setMessagesExpanded] = useState(false)
     const [_, forceUpdate] = useReducer((x) => x + 1, 0);
 
     const handleClose = () => setShow(false);
@@ -81,7 +82,6 @@ export default function BookClub() {
 
     function handleSubmitMessage(e) {
         e.preventDefault()
-        console.log(formState);
         if (!formState.body) {
             alert('You must provide a message')
             return
@@ -89,7 +89,12 @@ export default function BookClub() {
         addMessage({
             variables: { ...formState, ...clubId }
         })
+
         this.forceUpdate()
+    }
+
+    function toggleMessagesExpanded() {
+        setMessagesExpanded(!messagesExpanded)
     }
 
     if (loading) {
@@ -189,9 +194,10 @@ export default function BookClub() {
             </div>
 
             <div className=''>
-                <div>
-                    <Collapsible className='p-2 text-2xl w-full text-purple-900 bg-gray-300 mt-3' trigger="Write Reviews ...">
-                        <div className={`p-1 flex flex-col-reverse overflow-auto gap-3`}>
+                <div className=''>
+                    <div className='p-2 text-2xl w-full text-purple-900 bg-gray-300 mt-3 border bg-white'>
+                        <h3>Discussion</h3>
+                        <div className={`p-1 flex flex-col-reverse overflow-auto gap-3 ${messagesExpanded ? 'expanded' : 'max-h-72'}`}>
                             {bookClub.discussion.length && (
                                 bookClub.discussion.map(message => <Message key={message._id} message={message} />)
                             ) || (
@@ -200,18 +206,27 @@ export default function BookClub() {
                                     </div>
                                 )}
                         </div>
+                        <div className='flex flex-row-reverse'>
+                            <button
+                                onClick={toggleMessagesExpanded}
+                            >
+                                {(messagesExpanded && <FaAngleUp />) || <FaAngleDown />}
+                            </button>
+                        </div>
                         <div className='p-2 border-1 rounded-lg w-full align-text-middle mt-3 bg-white'>
                             <form onSubmit={handleSubmitMessage}>
-                                <textarea className="p-2 outline-none text-sm bg-gray-100 text-gray-700 pr-4 h-30 rounded-full border-4 border-gray-200 w-full align-middle text-sm"
+                                <textarea className="px-5 outline-none text-sm bg-gray-100 text-gray-700 rounded-full border-4 border-gray-200 w-full align-middle text-sm resize-none"
                                     onChange={handleChange}
                                     name='body'
-                                    placeholder='Write your review here...' />
+                                    placeholder='Write your review here...'
+                                    rows='4'
+                                />
+
                                 <button className="py-1 px-2 text-sm text-gray-100 border-2 rounded-full bg-purple-900 border-purple-900 m-2 flex">Publish</button>
                             </form>
                         </div>
-                    </Collapsible>
+                    </div>
                 </div>
-
             </div>
         </div>
 
