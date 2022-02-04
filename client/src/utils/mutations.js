@@ -25,8 +25,8 @@ export const SIGNUP_USER = gql`
     `;
 
 export const CREATE_ClUB = gql`
-mutation createClub($clubName: String!, $speed: String!, $type: String!, $meetingDay: String!, $meetingTime: String!, $bookId: String!, $title: String!, $description: String!, $authors: [String]!, $imgUrl: String!) {
-  createClub(clubName: $clubName, speed: $speed, type: $type, meetingDay: $meetingDay, meetingTime: $meetingTime, bookId: $bookId, title: $title, description: $description, authors: $authors, imgUrl: $imgUrl) {
+mutation createClub($clubName: String!, $speed: String!, $type: String!, $meetingDay: String!, $meetingTime: String!, $maxMembers: Int!, $bookId: String!, $title: String!, $description: String!, $authors: [String]!, $imgUrl: String!) {
+  createClub(clubName: $clubName, speed: $speed, type: $type, meetingDay: $meetingDay, meetingTime: $meetingTime, maxMembers: $maxMembers, bookId: $bookId, title: $title, description: $description, authors: $authors, imgUrl: $imgUrl) {
     clubName
     _id
     creator
@@ -36,6 +36,7 @@ mutation createClub($clubName: String!, $speed: String!, $type: String!, $meetin
     authors
     imgUrl
     speed
+    maxMembers
     type
     meetingDay
     meetingTime
@@ -46,21 +47,18 @@ mutation createClub($clubName: String!, $speed: String!, $type: String!, $meetin
 }
 `;
 
-export const ADD_DISCUSSION = gql`
-mutation addDiscussion ($bookClubId : String!, $discussionBody:String!){
-    addDiscussion (bookClubId: $bookClubId, discussionBody : $discussionBody) {
+export const ADD_MESSAGE = gql`
+mutation AddMessage($clubId: ID!, $body: String!) {
+  addMessage(clubId: $clubId, body: $body) {
+    _id
+    clubName
+    discussion {
       _id
-      createdAt
-      bookClubName
-      discussions {
-        _id
-        createdAt
-        username
-        discussionBody
-      } 
-          
+      body
     }
-  } 
+    createdAt
+  }
+}
 `
 
 export const JOIN_CLUB = gql`

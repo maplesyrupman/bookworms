@@ -40,6 +40,16 @@ const resolvers = {
             .populate('events')
             .sort({ memberCount: -1 })
         },
+
+        favBook: async (parent, {bookId}) => {
+            const book = {
+                title: 'Dune', 
+                authors: ['Frank Herbert'],
+                description: 'A really good book.', 
+                imgUrl: 'http://books.google.com/books/content?id=B1hSG45JCX4C&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api'
+            } 
+            return book;
+        }
     },
 
 
