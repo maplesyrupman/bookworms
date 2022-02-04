@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom'
 import BookTab from '../components/BookTab'
 import googleBook from '../utils/bookSearch'
 import Event from '../components/Event'
-
+import { FaUserCircle } from 'react-icons/fa'
 
 export default function Profile() {
 
@@ -79,51 +79,11 @@ export default function Profile() {
     console.log(bio)
 
     return (
-        <div >
-            <div className="grid grid-cols-3" style={{ marginBottom: "20px", padding: "20px", border: "2px solid black" }}>
-                <div
-                    style={{
-                        height: "200px",
-                        width: "200px",
-                        border: "1px dashed black",
-                    }}
-                    onClick={() => imageUploader.current.click()}
-                >
-                    <img
-                        ref={uploadedImage}
-                        style={{
-                            width: "200px",
-                            height: "200px"
-                        }}
-                        alt="profile pic"
-                    />
-                    <input type="file" accept="image/*" onChange={handleImageUpload} ref={imageUploader} style={{ display: "none" }} />
-
-                </div>
-                <div >
-                    <div className=''>
-                        <h2>{username}</h2>
-                        <button
-                            className='ml-4'
-                            onClick={toggleEdit}
-                        >
-                            {editMode ? 'save' : 'edit'}
-                        </button>
-                    </div>
-                    {
-                        !editMode && (
-                            <div>
-                                <p>{bio}</p>
-                            </div>
-                        ) || (
-                            <div>
-                                <textarea style={{ width: "250px", border: "2px solid black", borderRadius: "5px" }}
-                                    value={bio}
-                                    onChange={updateBio}
-                                />
-                            </div>
-                        )
-                    }
+        <div className='p-4'>
+            <div className="p-2 grid grid-cols-3 bg-white">
+            <div>
+                    <p className="text-6xl font-bold p-2 text-gray-300"><FaUserCircle /></p>
+                    <p className='text-3xl p-2 text-purple-900'>{username}</p>
                 </div>
                 <div>
                     <div>
@@ -166,33 +126,22 @@ export default function Profile() {
                         <input id="statusBox" style={{ height: "40px", border: "2px solid black", borderRadius: "5px", marginBottom: "10px" }} type="text" defaultValue={status} onChange={getStatus} />
 
                     </div>
-                    <button onClick={submitStatus} className="btn btn-blue">Submit</button>
+                    <button onClick={submitStatus} className="p-1 text-sm text-purple-900 bg-gray-50 border-purple-900 border-2 rounded-lg h-8 w-16=">Submit</button>
                 </div>
 
 
             </div>
 
 
-            <h2>Popular Books</h2>
-            <div className="grid grid-cols-1" style={{ marginTop: "50px", height: "300px", border: "2px solid black" }}>
-                {/* <div >
-                    {books && (
-                        books.map(book => book.authors ? <BookTab key={book.imgUrl} book={book} isInSearch={true} /> : null)
-                    )}
-                    {!books && (
-                        <div>Loading</div>
-                    )}
-                </div> */}
-            </div>
-            <div className="grid grid-cols-2">
-                <div>
-                    <h2>Your Clubs:</h2>
+            <div className="grid grid-cols-2 gap-4">
+                <div className='bg-white'>
+                <p className="p-2 flex flex-col text-2xl text-purple-900 bg-gray-300 border-4 text-center">Your Clubs</p>
                     <div className="flex flex-col gap-2">
                         {data.user.bookClubs.map(club => <ClubTab key={club._id} clubData={club} onProfile={true} />)}
                     </div>
                 </div>
-                <div>
-                     <h2>Upcoming Meetings</h2>
+                <div className='bg-white'>
+                <p className="p-2 flex flex-col text-2xl text-purple-900 bg-gray-300 border-4 text-center">Upcoming Meetings</p>
                     <div className="flex flex-col gap-2">
                         {events.upcomingEvents.map(event => <Event key={event._id} event={event} />)}
                     </div>
