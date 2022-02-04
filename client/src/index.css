@@ -29,6 +29,10 @@
   height: 70vh;
 }
 
+.max-h-200px {
+  max-height: 200px;
+}
+
 h1,
 h2,
 h3,

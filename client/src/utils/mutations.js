@@ -24,6 +24,20 @@ export const SIGNUP_USER = gql`
         }
     `;
 
+export const UPDATE_USER = gql`
+        mutation updateUser($bio: String, $favBookBookId: String, $favBookTitle: String, $favBookAuthors: String, $favBookDescription: String, $favBookImgUrl: String) {
+          updateUser(bio: $bio, favBookBookId: $favBookBookId, favBookTitle: $favBookTitle, favBookAuthors: $favBookAuthors, favBookDescription: $favBookDescription, favBookImgUrl: $favBookImgUrl) {
+            username
+            bio
+            favBookBookId
+            favBookTitle
+            favBookAuthors
+            favBookDescription
+            favBookImgUrl
+          }
+        }
+`
+
 export const CREATE_ClUB = gql`
 mutation createClub($clubName: String!, $speed: String!, $type: String!, $meetingDay: String!, $meetingTime: String!, $maxMembers: Int!, $bookId: String!, $title: String!, $description: String!, $authors: [String]!, $imgUrl: String!) {
   createClub(clubName: $clubName, speed: $speed, type: $type, meetingDay: $meetingDay, meetingTime: $meetingTime, maxMembers: $maxMembers, bookId: $bookId, title: $title, description: $description, authors: $authors, imgUrl: $imgUrl) {

@@ -26,6 +26,26 @@ const userSchema = new Schema(
       maxlength: 580
     },
 
+    favBookTitle: {
+      type: String
+    },
+
+    favBookDescription: {
+      type: String
+    },
+
+    favBookAuthors: {
+      type: String
+    },
+
+    favBooImgUrl: {
+      type: String
+    },
+
+    favBookId: {
+      type: String
+    },
+
     bookClubs: [
       {
         type: Schema.Types.ObjectId,

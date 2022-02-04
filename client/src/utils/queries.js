@@ -64,6 +64,11 @@ query user($userId: ID!) {
   user(userId: $userId) {
     username
     bio
+    favBookBookId
+    favBookTitle
+    favBookAuthors
+    favBookDescription
+    favBookImgUrl
     bookClubs {
       clubName
       _id
@@ -97,17 +102,6 @@ query popularClubs {
     }
   }
 }
-`;
-
-export const FAV_BOOK = gql`
-  query favBook($bookId: String!) {
-    favBook(bookId: $bookId) {
-      title
-      authors
-      imgUrl
-      description
-    }
-  }
 `;
 
 export const UPCOMING_EVENTS = gql `

@@ -12,6 +12,11 @@ type User {
         username: String
 		email: String
         bio: String
+        favBookTitle: String
+        favBookImgUrl: String
+        favBookAuthors: String
+        favBookDescription: String
+        favBookBookId: String
         bookClubs: [BookClub]
     }
 
@@ -82,7 +87,7 @@ type User {
         joinClub(clubId: ID!): BookClub
         addEvent(eventName: String!, eventDate: String, location: String, link: String, clubId: ID!): Event
         addMessage(clubId: ID!, body: String!): BookClub
-
+        updateUser(bio: String, favBookTitle: String, favBookImgUrl: String, favBookDescription: String, favBookAuthors: String): User
     }
 
 `

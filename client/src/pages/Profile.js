@@ -1,14 +1,16 @@
 import React from 'react'
 import { useState } from 'react'
 import { useQuery } from "@apollo/client"
-import { QUERY_USER, FAV_BOOK, UPCOMING_EVENTS } from '../utils/queries'
+import { QUERY_USER, UPCOMING_EVENTS } from '../utils/queries'
+import {UPDATE_USER} from '../utils/mutations'
 import Auth from '../utils/auth'
 import ClubTab from "../components/ClubTab"
-import ReactDom from "react-dom"
 import { useParams } from 'react-router-dom'
 import BookTab from '../components/BookTab'
 import googleBook from '../utils/bookSearch'
 import Event from '../components/Event'
+import { FaBookmark, FaUserCircle } from 'react-icons/fa'
+import FavBookSearchResult from '../components/FavBookSearchResult'
 
 
 export default function Profile() {
@@ -18,11 +20,12 @@ export default function Profile() {
 
     const [status, setStatus] = useState(null)
     const [print, setPrint] = useState(false)
+    const [favBook, setFavBook] = useState(undefined)
 
     const [editMode, setEditMode] = useState(false)
     const [profileData, updateProfileData] = useState({})
+    const [favBookResults, setFavBookResults] = useState(undefined)
 
-    const { data: favBookData, loading: favBookLoading } = useQuery(FAV_BOOK, { variables: { bookId: 'blah' } })
     const { data: events, loading: eventsLoading } = useQuery(UPCOMING_EVENTS)
 
     let { userId } = useParams()
@@ -45,26 +48,48 @@ export default function Profile() {
         }
     }
 
-    function getStatus(e) {
-        console.warn(e.target.value)
-        setStatus(e.target.value)
-        setPrint(false)
-    }
+    // function getStatus(e) {
+    //     console.warn(e.target.value)
+    //     setStatus(e.target.value)
+    //     setPrint(false)
+    // }
 
-    function submitStatus() {
-        console.debug("Submit status called")
-        const statusBox = document.getElementById("statusBox")
-        statusBox.value = ""
-        setPrint(true)
-    }
+    // function submitStatus() {
+    //     console.debug("Submit status called")
+    //     const statusBox = document.getElementById("statusBox")
+    //     statusBox.value = ""
+    //     setPrint(true)
+    // }
 
     function toggleEdit() {
-        console.log(editMode)
         setEditMode(!editMode)
     }
 
     function updateBio(e) {
         updateProfileData({ ...profileData, bio: e.target.value })
+    }
+
+    function updateFavBook(e) {
+        const div = e.target
+        const favBook = {
+            favBookTitle: div.dataset.title,
+            favBookAuthors: div.dataset.authors,
+            favBookDescription: div.dataset.description,
+            favBookImgUrl: div.dataset.imgurl,
+            favBookBookId: div.dataset.bookid
+        }
+
+        updateProfileData({ ...profileData, favBook})
+        console.log(profileData)
+    }
+
+    async function searchFavBook(e) {
+
+        e.preventDefault()
+        const title = e.target[0].value
+        const books = await googleBook(title)
+        books.forEach(book => console.log(book.authors))
+        setFavBookResults(books.map(book => book ? <FavBookSearchResult book={book} key={book.bookId}  /> : null))
     }
 
 
@@ -76,31 +101,24 @@ export default function Profile() {
             </div>
         )
     }
-    console.log(bio)
 
     return (
         <div >
-            <div className="grid grid-cols-3" style={{ marginBottom: "20px", padding: "20px", border: "2px solid black" }}>
+            <div className="grid grid-cols-6" style={{ marginBottom: "20px", padding: "20px", border: "2px solid black" }}>
                 <div
                     style={{
                         height: "200px",
                         width: "200px",
-                        border: "1px dashed black",
                     }}
-                    onClick={() => imageUploader.current.click()}
+                    className='col-span-1'
                 >
-                    <img
-                        ref={uploadedImage}
-                        style={{
-                            width: "200px",
-                            height: "200px"
-                        }}
-                        alt="profile pic"
+                    <FaUserCircle
+                    className='h-full w-full'
                     />
-                    <input type="file" accept="image/*" onChange={handleImageUpload} ref={imageUploader} style={{ display: "none" }} />
-                    Click to upload Image
                 </div>
-                <div >
+                <div
+                className='col-span-2'
+                >
                     <div className=''>
                         <h2>{username}</h2>
                         <button
@@ -118,14 +136,14 @@ export default function Profile() {
                         ) || (
                             <div>
                                 <textarea style={{ width: "250px", border: "2px solid black", borderRadius: "5px" }}
-                                    value={bio}
                                     onChange={updateBio}
+                                    defaultValue={bio}
                                 />
                             </div>
                         )
                     }
                 </div>
-                <div>
+                <div className='col-span-3'>
                     <div>
                         <h2>My Favourite Book</h2>
                     </div>
@@ -133,30 +151,29 @@ export default function Profile() {
                     {
                         (editMode && (
                             <div>
-                                <form>
+                                <form onSubmit={searchFavBook}>
                                     <div>
                                         <label htmlFor='favBookSearch'>Favourite Book:</label>
-                                        <input type='text' name='favBookSearch' />
-                                    </div>
-                                    <div>
-                                        <button>
-                                            Search
-                                        </button>
+                                        <input type='text' name='favBookSearch' className='mx-2' />
+                                        <button>Search</button>
                                     </div>
                                 </form>
-                                <div id='favBookSearchResults'>
-
+                                <div 
+                                id='favBookSearchResults'
+                                className='overflow-auto max-h-200px border p-1 flex flex-col gap-1'
+                                onClick={updateFavBook}
+                                >
+                                    {favBookResults}
                                 </div>
                             </div>
-                        )) 
+                        ))
                     }
                     <div>
 
                     </div>
                 </div>
-                <div>
 
-                    {/* <h2>Hello {username} ! </h2> */}
+                {/* <div>
                     <div>
                         <label style={{ fontWeight: 'bold' }}>Thought of the Day: </label>
                         {print ? <p style={{ fontFamily: "cursive" }}>{status}</p> : null}
@@ -167,7 +184,7 @@ export default function Profile() {
 
                     </div>
                     <button onClick={submitStatus} className="btn btn-blue">Submit</button>
-                </div>
+                </div> */}
 
 
             </div>
@@ -192,7 +209,7 @@ export default function Profile() {
                     </div>
                 </div>
                 <div>
-                     <h2>Upcoming Meetings</h2>
+                    <h2>Upcoming Meetings</h2>
                     <div className="flex flex-col gap-2">
                         {events.upcomingEvents.map(event => <Event key={event._id} event={event} />)}
                     </div>
