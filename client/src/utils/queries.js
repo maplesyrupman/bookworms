@@ -108,4 +108,15 @@ export const FAV_BOOK = gql`
       description
     }
   }
-`
+`;
+
+export const UPCOMING_EVENTS = gql `
+query UpcomingEvents {
+  upcomingEvents {
+    _id
+    eventName
+    eventDate
+    location
+  }
+}
+`;
