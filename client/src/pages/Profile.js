@@ -1,16 +1,23 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
+import { useState } from 'react'
 import { useQuery } from "@apollo/client"
 import { QUERY_USER, FAV_BOOK } from '../utils/queries'
 import Auth from '../utils/auth'
 import ClubTab from "../components/ClubTab"
+import ReactDom from "react-dom"
 import { useParams } from 'react-router-dom'
 import BookTab from '../components/BookTab'
 import googleBook from '../utils/bookSearch'
 
 
 export default function Profile() {
-    const [images, setImages] = useState([])
-    const [imageURLs, setImageURLs] = useState([])
+
+    const uploadedImage = React.useRef(null);
+    const imageUploader = React.useRef(null);
+
+    const [status, setStatus] = useState(null)
+    const [print, setPrint] = useState(false)
+
     const [editMode, setEditMode] = useState(false)
     const [profileData, updateProfileData] = useState({})
 
@@ -21,16 +28,30 @@ export default function Profile() {
     const { _id, username, bio, bookClubs } = data?.user || {}
 
 
-    useEffect(() => {
-        if (images.length < 1) return;
-        const newImageURLs = [];
-        images.forEach(image => newImageURLs.push(URL.createObjectURL(image)));
+    const handleImageUpload = e => {
+        const [file] = e.target.files;
+        if (file) {
+            const reader = new FileReader();
+            const { current } = uploadedImage;
+            current.file = file;
+            reader.onload = (e) => {
+                current.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
 
-        setImageURLs(newImageURLs);
-    }, [images])
+    function getStatus(e) {
+        console.warn(e.target.value)
+        setStatus(e.target.value)
+        setPrint(false)
+    }
 
-    function onImageChange(e) {
-        setImages([...e.target.files]);
+    function submitStatus() {
+        console.debug("Submit status called")
+        const statusBox = document.getElementById("statusBox")
+        statusBox.value = ""
+        setPrint(true)
     }
 
     function toggleEdit() {
@@ -39,7 +60,7 @@ export default function Profile() {
     }
 
     function updateBio(e) {
-        updateProfileData({...profileData, bio: e.target.value})
+        updateProfileData({ ...profileData, bio: e.target.value })
     }
 
 
@@ -55,23 +76,32 @@ export default function Profile() {
 
     return (
         <div >
-            <div className="grid grid-cols-3" style={{ height: "300px", marginBottom: "30px", border: "2px solid black" }}>
-                <div style={{
-                    height: "300",
-                    width: "300",
-                    border: "2px dashed black"
-                }}>
-                    {imageURLs.map(imageSrc => <img src={imageSrc} alt="profile pics" className="photo" onProfile={true} />)}
-                    <input type="file" multiple accept="image/*" onChange={onImageChange} />
-
+            <div className="grid grid-cols-3" style={{ marginBottom: "20px", padding: "20px", border: "2px solid black" }}>
+                <div
+                    style={{
+                        height: "200px",
+                        width: "200px",
+                        border: "1px dashed black",
+                    }}
+                    onClick={() => imageUploader.current.click()}
+                >
+                    <img
+                        ref={uploadedImage}
+                        style={{
+                            width: "200px",
+                            height: "200px"
+                        }}
+                        alt="profile pic"
+                    />
+                    <input type="file" accept="image/*" onChange={handleImageUpload} ref={imageUploader} style={{ display: "none" }} />
+                    Click to upload Image
                 </div>
-
                 <div >
                     <div className=''>
                         <h2>{username}</h2>
-                        <button 
-                        className='ml-4'
-                        onClick={toggleEdit}
+                        <button
+                            className='ml-4'
+                            onClick={toggleEdit}
                         >
                             {editMode ? 'save' : 'edit'}
                         </button>
@@ -83,16 +113,14 @@ export default function Profile() {
                             </div>
                         ) || (
                             <div>
-                                <textarea 
-                                value={bio} 
-                                onChange={updateBio}
+                                <textarea style={{ width: "250px", border: "2px solid black", borderRadius: "5px" }}
+                                    value={bio}
+                                    onChange={updateBio}
                                 />
                             </div>
                         )
                     }
-
                 </div>
-
                 <div>
                     <div>
                         <h2>My Favourite Book</h2>
@@ -101,38 +129,52 @@ export default function Profile() {
                     {
                         (editMode && (
                             <div>
-                            <form>
-                                <div>
-                                    <label htmlFor='favBookSearch'>Favourite Book:</label>
-                                    <input type='text' name='favBookSearch' />
+                                <form>
+                                    <div>
+                                        <label htmlFor='favBookSearch'>Favourite Book:</label>
+                                        <input type='text' name='favBookSearch' />
+                                    </div>
+                                    <div>
+                                        <button>
+                                            Search
+                                        </button>
+                                    </div>
+                                </form>
+                                <div id='favBookSearchResults'>
+
                                 </div>
-                                <div>
-                                    <button>
-                                        Search
-                                    </button>
-                                </div>
-                            </form>
-                            <div id='favBookSearchResults'>
-    
                             </div>
-                        </div>
-                        ))
+                        )) 
                     }
                     <div>
-                        
+
                     </div>
-
-
-
                 </div>
+                <div>
+
+                    {/* <h2>Hello {username} ! </h2> */}
+                    <div>
+                        <label style={{ fontWeight: 'bold' }}>Thought of the Day: </label>
+                        {print ? <p style={{ fontFamily: "cursive" }}>{status}</p> : null}
+                    </div>
+                    <br />
+                    <div>
+                        <input id="statusBox" style={{ height: "40px", border: "2px solid black", borderRadius: "5px", marginBottom: "10px" }} type="text" defaultValue={status} onChange={getStatus} />
+
+                    </div>
+                    <button onClick={submitStatus} className="btn btn-blue">Submit</button>
+                </div>
+
+
             </div>
+
+
             <h2>Popular Books</h2>
             <div className="grid grid-cols-1" style={{ marginTop: "50px", height: "300px", border: "2px solid black" }}>
                 {/* <div >
                     {books && (
                         books.map(book => book.authors ? <BookTab key={book.imgUrl} book={book} isInSearch={true} /> : null)
                     )}
-
                     {!books && (
                         <div>Loading</div>
                     )}
@@ -150,6 +192,6 @@ export default function Profile() {
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }
