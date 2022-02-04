@@ -12,6 +12,7 @@ import NewClubForm from './pages/NewClub';
 import Club from './pages/BookClub'
 import Profile from './pages/Profile'
 import ClubsList from './pages/ClubsList'
+import Footer from './components/Footer'
 
 const httpLink = createHttpLink({
   uri: '/graphql'
@@ -46,10 +47,11 @@ function App() {
               <Route path='newClub' element={<NewClubForm />} />
               <Route path=':bookId' element={<ClubsList />} />
             </Route>
-            <Route path='club/:clubId' element={<Club/>} />
-            <Route path='profile' element={<Profile/>} />
+            <Route path='club/:clubId' element={<Club />} />
+            <Route path='profile' element={<Profile />} />
           </Route>
         </Routes>
+        <Footer />
       </Router>
     </ApolloProvider>
   );

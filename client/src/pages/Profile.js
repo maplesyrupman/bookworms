@@ -94,7 +94,7 @@ export default function Profile() {
                         alt="profile pic"
                     />
                     <input type="file" accept="image/*" onChange={handleImageUpload} ref={imageUploader} style={{ display: "none" }} />
-                    Click to upload Image
+
                 </div>
                 <div >
                     <div className=''>

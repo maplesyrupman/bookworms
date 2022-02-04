@@ -126,14 +126,14 @@ export default function BookClub() {
                 <div className='col-span-1'>
                     <>
                         <div className='p-2'>
-                        <p className="p-2 text-xl text-purple-900 text-center">Meeting Dates</p>
+                            <p className="p-2 text-xl text-purple-900 text-center">Meeting Dates</p>
 
                             <div className='p-2 overflow-auto'>
                                 {bookClub.events.map(event => <Event key={event._id} event={event} />)}
                             </div>
                             <button className="p-1 m-2 text-sm text-purple-900 bg-gray-50 border-purple-900 border-2 rounded-lg h-8 float-right" onClick={handleShow}>
-                            Add Event
-                        </button>
+                                Add Event
+                            </button>
                         </div>
 
                         <Modal show={show} onHide={handleClose}>
@@ -205,7 +205,7 @@ export default function BookClub() {
                                 <textarea className="p-2 outline-none text-sm bg-gray-100 text-gray-700 pr-4 h-30 rounded-full border-4 border-gray-200 w-full align-middle text-sm"
                                     onChange={handleChange}
                                     name='body'
-                                    placeholder='Write your review here...'/>
+                                    placeholder='Write your review here...' />
                                 <button className="py-1 px-2 text-sm text-gray-100 border-2 rounded-full bg-purple-900 border-purple-900 m-2 flex">Publish</button>
                             </form>
                         </div>
@@ -214,5 +214,6 @@ export default function BookClub() {
 
             </div>
         </div>
+
     )
 }
