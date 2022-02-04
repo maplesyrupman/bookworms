@@ -3,7 +3,7 @@ import { QUERY_BOOKCLUB } from '../utils/queries'
 import { useParams } from 'react-router-dom'
 import { useState, useReducer } from 'react'
 import { Modal } from 'react-bootstrap'
-import DatePicker from "react-datepicker";
+import DateTimePicker from "react-datetime-picker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import Member from '../components/Member'
@@ -38,11 +38,9 @@ export default function BookClub() {
         authors: bookClub.authors
     }
 
-    const [formState, setFormState] = useState({ eventName: '', eventDate: '', location: '', link: '', clubId: clubId, body: '' });
+    const [formState, setFormState] = useState({ eventName: '', eventDate: new Date(), location: '', link: '', clubId: clubId, body: '' });
     const [addEvent, { eventData, loadingEvent }] = useMutation(ADD_EVENT);
     const [addMessage, { msgData, loadingMsg }] = useMutation(ADD_MESSAGE);
-
-    const [eventDt, setEventDt] = useState(new Date());
 
     function handleChange(e) {
         switch (e.target.name) {
@@ -62,8 +60,8 @@ export default function BookClub() {
     }
 
     function handleDateChange(e) {
+        console.log(e);
         setFormState({ ...formState, eventDate: e })
-        setEventDt = e;
     }
 
 
@@ -154,14 +152,10 @@ export default function BookClub() {
                                         onChange={handleChange}
                                         name='eventName'
                                     />
-                                    <DatePicker className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                    <DateTimePicker className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                         placeholder="Event Date"
-                                        selected={eventDt}
-                                        onChange={(date) => {
-                                            setEventDt(date);
-                                            setFormState({ ...formState, eventDate: date })
-                                        }
-                                        }
+                                        value={formState.eventDate}
+                                        onChange={handleDateChange}
                                         name='eventDate'
                                     />
                                     <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -200,7 +194,7 @@ export default function BookClub() {
                         <form onSubmit={handleSubmitMessage}>
                             <textarea className="p-2 border rounded-sm bg-gray-10 w-5/6 align-middle text-sm"
                                 onChange={handleChange}
-                                name='body'/>
+                                name='body' />
                             <button className="p-3 w-1/6 btn bg-sky-600 hover:bg-sky-700 align-middle">Publish</button>
                         </form>
                     </div>
@@ -213,6 +207,7 @@ export default function BookClub() {
                                 </div>
                             )}
                     </div>
+
                 </div>
 
             </div>
