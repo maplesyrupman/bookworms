@@ -89,6 +89,7 @@ export default function BookClub() {
         addMessage({
             variables: { ...formState, ...clubId }
         })
+        e.target.reset()
 
         this.forceUpdate()
     }
