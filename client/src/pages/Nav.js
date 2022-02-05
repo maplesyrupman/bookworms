@@ -76,9 +76,9 @@ export default function Nav() {
                 </nav>
             </div>
 
-            <div className="position-relative">
+            <div className="position-relative min-h-screen">
                 <div className="container lg:px-24 position-relative">
-                    <Outlet />
+                    <Outlet className=''/>
                 </div>
                 <Footer />
             </div>
